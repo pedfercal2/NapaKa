@@ -12,13 +12,47 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    // toDo -  En caso de que un mismo email pueda tener varias cuentas, crear función para obtener todas las cuentas de 1 email.
+
     protected $table = "users";
+
+    protected $fillable = ['nombre', 'email', 'password', 'biografia', 'foto_perfil'];
 
     // para tener una clave primaria distinta de 'id' habría que poner -> protected $primaryKey = "nombreClave";
 
     static function getAllUsers(){
         $usuarios = User::all();
         return $usuarios;
+    }
+
+    // toDo - comprobaciones de no repetición de email?- preguntar si tiene sentido que haya varias cuentas con mismo email, si es así, k no se llamen igual
+    static function crearUser($nombre, $email, $password, $biografia, $fotoPerfil){
+        $usuario = new User;
+        $usuario->nombre = $nombre;
+        $usuario->email = $email;
+        $usuario->password = $password;
+        $usuario->biografia = $biografia;
+        $usuario->foto_perfil = $fotoPerfil;
+        $usuario->save();
+    }
+
+    static function getUser($id){
+        return User::find($id)->get();
+    }
+
+    static function deleteUser($id){
+        $user = User::find($id);
+
+        if($user != null){
+            $user->delete();
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    static function editarUser($id,$nombre, $email, $password, $biografia, $fotoPerfil){
+        return User::find($id)->update(['nombre' => $nombre, 'email' => $email, 'password' => $password, 'biografia' => $biografia, 'foto_perfil' => $fotoPerfil]);
     }
 }
 

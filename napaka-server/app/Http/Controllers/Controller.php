@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comentario;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -12,7 +13,7 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     public function inicio(){
-        $usuarios = User::getAllUsers();
-        return view("welcome", compact('usuarios'));
+        $comentarios = User::deleteUser(1);
+        return view("welcome", compact('comentarios'));
     }
 }

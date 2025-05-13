@@ -22,8 +22,6 @@
     </head>
     <body class="antialiased">
         <h1>Pruebas</h1>
-        @foreach($usuarios as $usuario)
-            <li>{{$usuario}}</li>
-        @endforeach
+            <li>{{$comentarios}}</li>
     </body>
 </html>

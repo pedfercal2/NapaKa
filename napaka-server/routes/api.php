@@ -16,13 +16,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Ver inicio - sin estar logeado
-Route::get('/napaka', [ApiController::class, 'index']);
+Route::get('/inicio', [ApiController::class, 'index']);
 
 // Ver inicio - al estar logueado
-Route::get('/napaka/{id}', [ApiController::class, 'ver']);
+Route::get('/inicio/{id}', [ApiController::class, 'ver']);
 
 // Ver posts de personas que sigo + mios
-Route::get('/napaka/{id}/ver', [ApiController::class, 'ver']);
+Route::get('/inicio/{id}/ver', [ApiController::class, 'ver']);
 
 Route::post('/napaka', [ApiController::class, 'ver']);
 
