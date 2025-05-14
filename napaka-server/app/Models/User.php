@@ -12,8 +12,6 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    // toDo -  En caso de que un mismo email pueda tener varias cuentas, crear función para obtener todas las cuentas de 1 email.
-
     protected $table = "users";
 
     protected $fillable = ['nombre', 'email', 'password', 'biografia', 'foto_perfil'];
@@ -25,7 +23,7 @@ class User extends Authenticatable
         return $usuarios;
     }
 
-    // toDo - comprobaciones de no repetición de email?- preguntar si tiene sentido que haya varias cuentas con mismo email, si es así, k no se llamen igual
+    // toDo - comprobaciones de no repetición de email?- preguntar si tiene sentido que haya varias cuentas con mismo email, si es así, k no se llamen igual - no repetidos!
     static function crearUser($nombre, $email, $password, $biografia, $fotoPerfil){
         $usuario = new User;
         $usuario->nombre = $nombre;
