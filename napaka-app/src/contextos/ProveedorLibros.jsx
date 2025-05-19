@@ -1,5 +1,4 @@
 import React from "react";
-import coleccion from "../assets/bbdd/biblioteca.json"
 import { useState } from "react";
 import { createContext } from "react";
 import { Fragment } from "react";
