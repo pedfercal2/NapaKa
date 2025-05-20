@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,17 +16,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Ver inicio - sin estar logeado
-Route::get('/inicio', [ApiController::class, 'index']);
+Route::middleware('auth:sanctum')->get('/user', function (Request $request){
+    return $request->user();
+});
 
-// Ver inicio - al estar logueado
-Route::get('/inicio/{id}', [ApiController::class, 'ver']);
-
-// Ver posts de personas que sigo + mios
-Route::get('/inicio/{id}/ver', [ApiController::class, 'ver']);
-
-Route::post('/napaka', [ApiController::class, 'ver']);
-
-// 
-Route::put('/napaka/{id}', [ApiController::class, 'ver']);
-Route::delete('/napaka/{id}', [ApiController::class, 'ver']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('register', [AuthController::class, 'register']);
+Route::post('/logout', [AuthController::class, 'logout']);

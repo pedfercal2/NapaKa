@@ -14,7 +14,18 @@ class User extends Authenticatable
 
     protected $table = "users";
 
-    protected $fillable = ['nombre', 'email', 'password', 'biografia', 'foto_perfil'];
+    protected $fillable = [
+        'nombre',
+        'email',
+        'password',
+        'biografia',
+        'foto_perfil'
+    ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 
     // para tener una clave primaria distinta de 'id' habría que poner -> protected $primaryKey = "nombreClave";
 
@@ -28,10 +39,12 @@ class User extends Authenticatable
         $usuario = new User;
         $usuario->nombre = $nombre;
         $usuario->email = $email;
-        $usuario->password = $password;
+        $usuario->password = bcrypt($password);
         $usuario->biografia = $biografia;
         $usuario->foto_perfil = $fotoPerfil;
         $usuario->save();
+
+        return $usuario;
     }
 
     static function getUser($id){
@@ -50,7 +63,7 @@ class User extends Authenticatable
     }
 
     static function editarUser($id,$nombre, $email, $password, $biografia, $fotoPerfil){
-        return User::find($id)->update(['nombre' => $nombre, 'email' => $email, 'password' => $password, 'biografia' => $biografia, 'foto_perfil' => $fotoPerfil]);
+        return User::find($id)->update(['nombre' => $nombre, 'email' => $email, 'password' => bcrypt($password), 'biografia' => $biografia, 'foto_perfil' => $fotoPerfil]);
     }
 }
 

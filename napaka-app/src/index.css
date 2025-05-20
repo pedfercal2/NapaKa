@@ -21,3 +21,23 @@ body {
   width: 100%;
   padding: 0 0.6rem;
 }
+
+header{
+  display: flex;
+  width: 100%;
+  min-height: 10vh;
+  align-items: center;
+  position: absolute;
+  top: 0;
+}
+
+.divUserInfo{
+  position: absolute;
+  right: 0;
+  margin: 1.4rem;
+  text-align: right;
+}
+
+
+
+
