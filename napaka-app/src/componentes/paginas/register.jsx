@@ -29,6 +29,7 @@ function register() {
       if(response && response.status === 422){
         console.log(response.data.errors);
       }
+      console.log(response);
     })
   }
 
