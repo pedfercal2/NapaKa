@@ -11,7 +11,6 @@ function GuestLayout(){
     return(
         <div>
             <div>
-                
             </div>
             <Outlet />
         </div>

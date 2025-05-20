@@ -5,7 +5,7 @@ import axiosClient from "../../axiosClient";
 import { useStateContext } from "../../contextos/contextprovider";
 
 function register() {
-  const nameRef = useRef();
+  const nombreRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
   const confirmPasswordRef = useRef();
@@ -15,13 +15,12 @@ function register() {
   const Submit = (ev) => {
     ev.preventDefault();
     const payload = {
-      name: nameRef.current.value,
+      nombre: nombreRef.current.value,
       email: emailRef.current.value,
       password: passwordRef.current.value,
       confirmPassword: confirmPasswordRef.current.value
     }
-    axiosClient.post("/register", payload).then((data) => {
-      console.log(data);
+    axiosClient.post("/register", payload).then(({data}) => {
       setUser(data.user);
       setToken(data.token)
     }).catch(err => {
@@ -29,7 +28,6 @@ function register() {
       if(response && response.status === 422){
         console.log(response.data.errors);
       }
-      console.log(response);
     })
   }
 
@@ -37,7 +35,7 @@ function register() {
     <div className="login-container">
         <h2 className="form-title">Regístrate:</h2>
         <form onSubmit={Submit} className="login-form">
-            <InputField ref={nameRef} type="text" placeholder="Nombre de usuario" icon="person"/>
+            <InputField ref={nombreRef} type="text" placeholder="Nombre de usuario" icon="person"/>
             <InputField ref={emailRef} type="email" placeholder="Email" icon="mail"/>
             <InputField ref={passwordRef} type="password" placeholder="Contraseña" icon="lock"/>
             <InputField ref={confirmPasswordRef} type="password" placeholder="Confirma tu contraseña" icon="lock"/>
