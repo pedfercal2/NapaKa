@@ -25,12 +25,13 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'nombre' => 'required|string|max:255|unique:users,nombre',
-            'email' => 'required|email|unique:users,email,'.$this->id,
-            'password' => [
-                'required',
-                Password::min(8)->letters()
-            ]
+            'id' => 'required',
+            'nombre' => 'required|string|max:255',
+            'email' => 'required|email',
+            'password' => 'nullable|string',
+            'biografia' => 'nullable',
+            'foto_perfil' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'is_administrator' => 'boolean'
         ];
     }
 }

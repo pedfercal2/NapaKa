@@ -8,11 +8,11 @@ export default function UserForm(){
 
     const [user, setUsers] = useState({
         id: null,
-        nombre: '',
-        email: '',
-        password: '',
-        biografia: '',
-        foto_perfil: '',
+        nombre: "",
+        email: "",
+        password: "",
+        biografia: "",
+        foto_perfil: "",
         is_administrator: false
     });
     
@@ -27,17 +27,26 @@ export default function UserForm(){
             axiosClient.get(`/users/${id}`)
             .then(({data}) => {
                 setLoading(false)
-                setUsers(data)
+                console.log(data["nombre"]);
+                setUsers({
+                  ...user,
+                  id: data["id"],
+                  nombre: data["nombre"],
+                  email: data["email"],
+                  biografia: data["biografia"],
+                  is_administrator: data["is_administrator"]
+                });
             })
             .catch(() => {
                 setLoading(false)
             })
-        }, [])
+        }, []);
     }
 
     const onSubmit = ev => {
         ev.preventDefault()
         if (user.id) {
+          console.log(user);
           axiosClient.put(`/users/${user.id}`, user)
             .then(() => {
                 navigate('/users')
@@ -64,7 +73,7 @@ export default function UserForm(){
 
     return(
     <>
-      {user.id && <h1>Editar Usuario: {user.nombre}</h1>}
+      {user.id && <h1>Editar Usuario {user.nombre}:</h1>}
       {!user.id && <h1>Crear Usuario:</h1>}
       <div className="card animated fadeInDown">
         {loading && (
@@ -80,10 +89,10 @@ export default function UserForm(){
           </div>
         }
         {!loading && (
-          <form className="login-container" onSubmit={onSubmit}>
-            <input value={user.nombre} onChange={ev => setUsers({...user, nombre: ev.target.value})} placeholder="Nombre"/>
+          <form className="login-container" onSubmit={onSubmit} encType="multipart/form-data">
+            <input defaultValue={user.nombre} readOnly placeholder="Nombre"/>
             <hr></hr>
-            <input value={user.email} onChange={ev => setUsers({...user, email: ev.target.value})} placeholder="Email"/>
+            <input defaultValue={user.email} readOnly placeholder="Email"/>
             <hr></hr>
             <input type="password" onChange={ev => setUsers({...user, password: ev.target.value})} placeholder="Password"/>
             <hr></hr>

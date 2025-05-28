@@ -30,7 +30,8 @@ class RegisterRequest extends FormRequest
             'password' => [
                 'required',
                 Password::min(8)->letters()
-            ]
+            ],
+            'fotoPerfil' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ];
     }
 }

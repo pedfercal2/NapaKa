@@ -19,7 +19,8 @@ function Login() {
 
     axiosClient.post("/login", payload).then(({data}) => {
       setUser(data.user);
-      setToken(data.token)
+      setToken(data.token);
+      console.log(data);
     }).catch(err => {
       const response = err.response;
       if(response && response.status === 422){

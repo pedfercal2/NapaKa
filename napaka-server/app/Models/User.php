@@ -38,9 +38,9 @@ class User extends Authenticatable
         $usuario->nombre = $data['nombre'];
         $usuario->email = $data['email'];
         $usuario->password = bcrypt($data['password']);
-        $usuario->biografia = $data['biografia'];
+        $usuario->biografia = "";
         $usuario->foto_perfil = $data['foto_perfil'];
-        $usuario->is_administrator = $data['is_administrator'];
+        $usuario->is_administrator = false;
         $usuario->save();
 
         return $usuario;
@@ -62,7 +62,17 @@ class User extends Authenticatable
     }
 
     static function editarUser($data){
-        return User::find($data['id'])->update(['nombre' => $data['nombre'], 'email' => $data['email'], 'password' => bcrypt($data['password']), 'biografia' => $data['biografia'], 'foto_perfil' => $data['foto_perfil'], 'is_administrator' => $data['is_administrator']]);
+        $user = User::find($data['id']);
+        if($data["password"] != "" || $data["password"] != null){
+            $user->password = bcrypt($data["password"]);
+        }
+        $user->biografia = $data["biografia"];
+        if($data["foto_perfil"] != "" || $data["foto_perfil"] != null){
+            $user->foto_perfil = $data["foto_perfil"];
+        }
+        $user->is_administrator = $data["is_administrator"];
+        $user->save();
+        return $user;
     }
 }
 
