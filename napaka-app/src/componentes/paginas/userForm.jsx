@@ -12,7 +12,8 @@ export default function UserForm(){
         email: '',
         password: '',
         biografia: '',
-        foto_perfil: ''
+        foto_perfil: '',
+        is_administrator: false
     });
     
     const navigate = useNavigate();
@@ -79,12 +80,21 @@ export default function UserForm(){
           </div>
         }
         {!loading && (
-          <form onSubmit={onSubmit}>
+          <form className="login-container" onSubmit={onSubmit}>
             <input value={user.nombre} onChange={ev => setUsers({...user, nombre: ev.target.value})} placeholder="Nombre"/>
+            <hr></hr>
             <input value={user.email} onChange={ev => setUsers({...user, email: ev.target.value})} placeholder="Email"/>
+            <hr></hr>
             <input type="password" onChange={ev => setUsers({...user, password: ev.target.value})} placeholder="Password"/>
-            <input value={user.biografia} onChange={ev => setUsers({...user, biografia: ev.target.value})} placeholder="Biografia"/>
-            <input value={user.foto_perfil} onChange={ev => setUsers({...user, foto_perfil: ev.target.value})} placeholder="Foto"/>
+            <hr></hr>
+            <textarea rows="8" cols="30" value={user.biografia} onChange={ev => setUsers({...user, biografia: ev.target.value})} placeholder="Biografia"/>
+            <hr></hr>
+            <label>Foto de perfil:</label>
+            <input type="file" value={user.foto_perfil} onChange={ev => setUsers({...user, foto_perfil: ev.target.value})}/>
+            <hr></hr>
+            <label>Administrador: </label>
+            <input type="checkbox" checked={user.is_administrator} onChange={ev => setUsers({...user, is_administrator: ev.target.checked})}/>
+            <hr></hr>
             <button className="btn">Guardar</button>
           </form>
         )}

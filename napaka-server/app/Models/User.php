@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -27,21 +28,19 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    // para tener una clave primaria distinta de 'id' habría que poner -> protected $primaryKey = "nombreClave";
-
     static function getAllUsers(){
         $usuarios = User::all();
         return $usuarios;
     }
 
-    // toDo - comprobaciones de no repetición de email?- preguntar si tiene sentido que haya varias cuentas con mismo email, si es así, k no se llamen igual - no repetidos!
-    static function crearUser($nombre, $email, $password, $biografia, $fotoPerfil){
+    static function crearUser($data){
         $usuario = new User;
-        $usuario->nombre = $nombre;
-        $usuario->email = $email;
-        $usuario->password = bcrypt($password);
-        $usuario->biografia = $biografia;
-        $usuario->foto_perfil = $fotoPerfil;
+        $usuario->nombre = $data['nombre'];
+        $usuario->email = $data['email'];
+        $usuario->password = bcrypt($data['password']);
+        $usuario->biografia = $data['biografia'];
+        $usuario->foto_perfil = $data['foto_perfil'];
+        $usuario->is_administrator = $data['is_administrator'];
         $usuario->save();
 
         return $usuario;
@@ -62,8 +61,8 @@ class User extends Authenticatable
         }
     }
 
-    static function editarUser($id,$nombre, $email, $password, $biografia, $fotoPerfil){
-        return User::find($id)->update(['nombre' => $nombre, 'email' => $email, 'password' => bcrypt($password), 'biografia' => $biografia, 'foto_perfil' => $fotoPerfil]);
+    static function editarUser($data){
+        return User::find($data['id'])->update(['nombre' => $data['nombre'], 'email' => $data['email'], 'password' => bcrypt($data['password']), 'biografia' => $data['biografia'], 'foto_perfil' => $data['foto_perfil'], 'is_administrator' => $data['is_administrator']]);
     }
 }
 

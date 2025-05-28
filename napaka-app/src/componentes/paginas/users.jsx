@@ -1,10 +1,16 @@
 import { useEffect, useState } from "react";
 import axiosClient from "../../axiosClient";
 import { Link } from "react-router-dom";
+import { useStateContext } from "../../contextos/contextprovider";
 
 function users(){
     const [users, setUsers] = useState();
     const [loading, setLoading] = useState(true);
+    const {user, token, setUser, setToken} = useStateContext();
+
+    if(!token){
+        return <Navigate to={'/login'}/>
+    }
 
     useEffect(() => {
         getUsers();
@@ -61,7 +67,9 @@ function users(){
             {!loading &&
               <tbody>
                 {users.map(u =>
-                    <tr key={u.id}>
+                {if(user.id !== u.id){
+                  return(
+                  <tr key={u.id}>
                     <td>{u.id}</td>
                     <td>{u.nombre}</td>
                     <td>{u.email}</td>
@@ -70,7 +78,8 @@ function users(){
                     &nbsp;
                     <button className="btn-delete" onClick={ev => onDeleteClick(u)}>Delete</button>
                   </td>
-                </tr>
+                </tr>)
+                }}
               )}
               </tbody>
             }

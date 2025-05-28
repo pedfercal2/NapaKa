@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('biografia');
             $table->string('foto_perfil');
+            $table->boolean('is_administrator');
             $table->rememberToken();
             $table->timestamps();
         });

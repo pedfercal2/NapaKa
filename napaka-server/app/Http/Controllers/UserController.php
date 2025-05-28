@@ -31,8 +31,12 @@ class UserController extends Controller
     {
         $data = $request->validated();
         $data['password'] = bcrypt($data['password']);
-        $user = User::crearUser($data['nombre'], $data['email'], $data['password'], "no", "no");
-        return response(new UserResource($user),201);
+        $user = User::crearUser($data);
+        /*return response(new UserResource($user),201);*/
+        return response()->json([
+            'user' => $user,
+            'status' => 201
+        ]);
     }
 
     /**
@@ -59,7 +63,7 @@ class UserController extends Controller
         if(isset($data['password'])){
             $data['password'] = bcrypt($data['password']);
         }
-        $user->editarUser($data['id'],$data['nombre'], $data['email'], $data['password'], $data['biografia'], $data['foto_perfil']);
+        $user->editarUser($data);
         return new UserResource($user);
     }
 

@@ -9,6 +9,8 @@ function register() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const confirmPasswordRef = useRef();
+  const fotoPerfil = useRef();
+  const is_administrator = useRef();
 
   const {setUser, setToken} = useStateContext();
 
@@ -18,7 +20,9 @@ function register() {
       nombre: nombreRef.current.value,
       email: emailRef.current.value,
       password: passwordRef.current.value,
-      confirmPassword: confirmPasswordRef.current.value
+      confirmPassword: confirmPasswordRef.current.value,
+      fotoPerfil: fotoPerfil.current.value,
+      is_administrator: false
     }
     axiosClient.post("/register", payload).then(({data}) => {
       setUser(data.user);
@@ -39,6 +43,7 @@ function register() {
             <InputField ref={emailRef} type="email" placeholder="Email" icon="mail"/>
             <InputField ref={passwordRef} type="password" placeholder="Contraseña" icon="lock"/>
             <InputField ref={confirmPasswordRef} type="password" placeholder="Confirma tu contraseña" icon="lock"/>
+            <InputField ref={fotoPerfil} type="file"/>
             <button className="login-button">Registrarse</button>
         </form>
         <p className="signup-text">¿Ya tienes una cuenta? <Link to='/login'>Logeate</Link>.</p>
