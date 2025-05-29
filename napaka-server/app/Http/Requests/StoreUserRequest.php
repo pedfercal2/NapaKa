@@ -32,7 +32,7 @@ class StoreUserRequest extends FormRequest
                 Password::min(8)->letters()
             ],
             'biografia' => 'nullable',
-            'foto_perfil' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            //'foto_perfil' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'is_administrator' => 'boolean'
         ];
     }

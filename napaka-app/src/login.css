@@ -1,10 +1,12 @@
 .login-container {
   max-width: 510px;
   margin: 0 auto;
+  margin-top: 5vw;
   border-radius: 0.5rem;
   padding: 2rem 1.5rem;
-  background: #42463f;
+  background-color: #466337;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  color: #acbe68;
 }
 
 .login-container .form-title{
@@ -25,11 +27,11 @@
     height: 100%;
     width: 100%;
     border-radius: 0.31rem;
-    border: 1px solid greenyellow;
+    border: 1px solid rgb(10, 12, 6);
     padding: 0 1.25rem 0 3.12rem;
     transition: 0.2s ease;
-    color: greenyellow;
-    background-color: #8b9287;
+    color: #c9eaa0;
+    background-color: #748a68;
 }
 
 .login-form .input-wrapper .input-field:focus{
@@ -37,11 +39,11 @@
 }
 
 .login-form .input-wrapper .input-field::placeholder{
-    color: greenyellow;
+    color: #c9eaa0;
 }
 
 .login-form .input-wrapper i{
-    color: greenyellow;
+    color: #c9eaa0;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -54,7 +56,7 @@
 }
 
 .login-form .input-wrapper .input-field:focus ~ i:not(.eye-icon){
-    color: green;
+    color: #466337;
 }
 
 .login-form .input-wrapper i.eye-icon{
@@ -77,7 +79,8 @@
     border: none;
     font-size: 1.125rem;
     font-weight: 500;
-    background-color: #8b9287;
+    color: #c9eaa0;
+    background-color: #748a68;
     margin-top: 2.19rem;
     border-radius: 0.31rem;
 }
@@ -109,5 +112,42 @@
 }
 
 .formErr{
-    color: red;
+    color: #fa848a;
 }
+
+.fPerfilContainer{
+    color: #acbe68 !important;
+}
+
+.enlace{
+    color: #b4d1a2 !important;
+}
+
+.pEnlace{
+    text-align: center;
+    color: #acbe68 !important;
+}
+.input-text-area{
+    color: #c9eaa0;
+    border: black solid 1px !important;
+    background-color: #748a68;
+    text-decoration: none;
+    border: none;
+    padding: 10px 2vw;
+    min-width: 50vh;
+    max-width: 50vh;
+}
+
+.check-wrapper{
+    display: flex;
+    margin: 1.24rem;
+}
+
+.admin-check-label{
+    color: #c9eaa0;
+}
+
+
+
+
+

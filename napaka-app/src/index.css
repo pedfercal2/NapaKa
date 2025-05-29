@@ -1,6 +1,26 @@
 /* Importando fuente de google fonts - Montserrat */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
+.verdeFondo01{
+  background-color: #9fc771;
+}
+
+.verdeFondo02{
+  background-color: #748a68;
+}
+
+.verdeFondo03{
+  background-color: #466337;
+}
+
+.verdeLetra01{
+  color: #acbe68
+}
+
+.verdeLetra02{
+  color: #466337
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -14,22 +34,26 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: green;
+  max-width: 99vw;
+  background-color: #9fc771 !important;
 }
 
 #root{
   width: 100%;
-  padding: 0 0.6rem;
+  padding: 0;
 }
 
 header{
   display: flex;
   width: 100%;
-  min-height: 10vw;
-  max-height: 10vw;
+  min-height: 4vw;
+  max-height: 4vw;
+  max-width: 100vw;
   align-items: center;
   position: absolute;
   top: 0;
+  margin: 0 auto !important;
+  padding: 0 !important;
 }
 
 .divUserInfo{
@@ -49,6 +73,26 @@ header{
   margin: 0 1.5rem;
 }
 
+.headerLink{
+  text-decoration: none;
+  border: black 1px solid;
+  padding: 5px;
+  margin: 0 3px;
+  background-color: #466337;
+}
 
+.header-text{
+  color: #9fc771 !important;
+}
 
+.main-header{
+  background-color: #6b943d;
+  margin: 0 !important;
+  width: 100%;
+  padding: 0;
+}
+
+.admin-check{
+  margin-left: 0.6rem;
+}
 

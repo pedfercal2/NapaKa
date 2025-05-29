@@ -33,11 +33,12 @@ function DefaultLayout(){
         return(
         <div id="defaultLayout">
             <div className="content">
-                <header>
+                <header className="main-header">
                     <div className="divUserInfo">
-                        <Link to="/users">ADMINISTRAR</Link>
-                    {user.nombre}
-                    <a href="#" onClick={onLogout} className="btn btnLogout">Logout</a>
+                        <Link className="headerLink header-text" to="/users">ADMINISTRAR</Link>
+                    <img src={user.foto_perfil}></img>
+                    <span className="header-text">{user.nombre}</span>
+                    <a href="#" onClick={onLogout} className="header-text headerLink">Logout</a>
                 </div>
                 </header>
                 <main>
@@ -54,8 +55,7 @@ function DefaultLayout(){
                 <header>
                     <div className="divHeader">
                         <div className="divUserInfo">
-                            No admin
-                        {user.nombre}
+                        <img className="border border-black p-2 img-thumbnail" src={user.foto_perfil}></img>
                         <a href="#" onClick={onLogout} className="btn btnLogout">Logout</a>
                     </div>
                     </div>

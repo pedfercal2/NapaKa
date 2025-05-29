@@ -6,7 +6,8 @@ import { useStateContext } from "../../contextos/contextprovider";
 function users(){
     const [users, setUsers] = useState();
     const [loading, setLoading] = useState(true);
-    const {user, token, setUser, setToken} = useStateContext();
+    const {user, token, setUser, setToken} = useStateContext(); 
+    const {admin, setAdmin} = useState("SI");
 
     if(!token){
         return <Navigate to={'/login'}/>
@@ -26,10 +27,13 @@ function users(){
           })
       }
 
-
     const getUsers = () => {
+      console.log(user);
+        const data = {
+          user: user
+        };
         setLoading(true);
-        axiosClient.get('/users')
+        axiosClient.post('/users/ver', data)
         .then(({data}) => {
             setLoading(false)
             setUsers(data.data)
@@ -40,18 +44,20 @@ function users(){
     }
 
      return(
-        <div>
-        <div style={{display: 'flex', justifyContent: "space-between", alignItems: "center"}}>
-          <h1>Users</h1>
-          <Link className="btn-add" to="/users/new">Nuevo...</Link>
-        </div>
+        <div className="container">
         <div className="card animated fadeInDown">
-          <table>
+          <div style={{display: 'flex', justifyContent: "space-between", alignItems: "center"}}>
+              <h1>Users</h1>
+              <Link className="btn-add" to="/users/new">Nuevo...</Link>
+            </div>
+          <table className="table table-hover">
             <thead>
             <tr>
               <th>ID</th>
               <th>Nombre</th>
               <th>Email</th>
+              <th>Foto Perfil</th>
+              <th>Admin</th>
               <th>Acciones</th>
             </tr>
             </thead>
@@ -73,6 +79,8 @@ function users(){
                     <td>{u.id}</td>
                     <td>{u.nombre}</td>
                     <td>{u.email}</td>
+                    <td><img className="img-thumbnail border border-black p-2" src={u.foto_perfil}></img></td>
+                    <td>{u.is_administrator}</td>
                     <td>
                     <Link className="btn-edit" to={'/users/' + u.id}>Edit</Link>
                     &nbsp;

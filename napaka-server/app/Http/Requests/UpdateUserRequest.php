@@ -30,8 +30,8 @@ class UpdateUserRequest extends FormRequest
             'email' => 'required|email',
             'password' => 'nullable|string',
             'biografia' => 'nullable',
-            'foto_perfil' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'is_administrator' => 'boolean'
+            /*'fotoPerfil' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',*/
+            'is_administrator' => 'required|boolean'
         ];
     }
 }

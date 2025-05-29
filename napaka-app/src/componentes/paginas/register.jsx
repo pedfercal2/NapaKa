@@ -27,12 +27,14 @@ function register() {
     if(confirmPasswordRef.current.value != passwordRef.current.value){
       setPasswordErr(["Las contraseñas no coinciden."]);
     }else{
-      const formData = new FormData();
+      var formData = new FormData();
 
       formData.append("nombre", nombreRef.current.value);
       formData.append("email", emailRef.current.value);
       formData.append("password", passwordRef.current.value);
-      formData.append("fotoPerfil", ev.target[4].files[0]);
+      if(ev.target[4].files[0] != undefined){
+        formData.append("fotoPerfil", ev.target[4].files[0]);
+      }
 
       console.log(formData);
 
@@ -99,13 +101,13 @@ function register() {
               <p className="formErr">{data}</p>
             )
           })}
-          <div>
-            <label>Foto de perfil:</label>
-            <input ref={fotoPerfilRef} type="file"/>
+          <div className="fPerfilContainer">
+            <label className="fPerfilContainer">Foto de perfil:</label>
+            <input className="fPerfilContainer" ref={fotoPerfilRef} type="file"/>
           </div>
           <button className="login-button">Registrarse</button>
         </form>
-        <p className="signup-text">¿Ya tienes una cuenta? <Link to='/login'>Logeate</Link>.</p>
+        <p className="pEnlace">¿Ya tienes una cuenta? <Link className="enlace" to='/login'>Logeate</Link>.</p>
     </div>  
   )
 }

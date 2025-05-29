@@ -11,7 +11,7 @@ class Comentario extends Model
 
     protected $table = "comentarios";
 
-    protected $fillable = ['user_id','post_id','texto','multimedia','alt_imagen'];
+    protected $fillable = ['user_id','post_id','texto','multimedia'];
 
     public $timestamps = false;
 
@@ -20,13 +20,12 @@ class Comentario extends Model
         return $comentarios;
     }
 
-    static function crearComentario($userId, $postId, $texto, $multimedia, $altImagen){
+    static function crearComentario($userId, $postId, $texto, $multimedia){
         $comentario = new Comentario;
         $comentario->user_id = $userId;
         $comentario->post_id = $postId;
         $comentario->texto = $texto;
         $comentario->multimedia = $multimedia;
-        $comentario->alt_imagen = $altImagen;
         $comentario->save();
     }
 
@@ -41,12 +40,11 @@ class Comentario extends Model
         }
     }
 
-    static function editarComentario($id, $texto, $multimedia, $altImagen){
+    static function editarComentario($id, $texto, $multimedia){
         $comentario = Comentario::find($id);
         if($comentario != null){
             $comentario->texto = $texto;
             $comentario->multimedia = $multimedia;
-            $comentario->altImagen = $altImagen;
             $comentario->save();
             return true;
         }else{
@@ -54,8 +52,6 @@ class Comentario extends Model
         }
     }
     
-
-    // Preguntar opinion si tiene sentido esto
     static function getAllComentariosDeUsuario($idUsuario){
         $comentarios = Comentario::where('user_id',$idUsuario)->get();
         return $comentarios;

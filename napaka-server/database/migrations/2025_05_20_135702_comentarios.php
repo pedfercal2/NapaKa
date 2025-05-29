@@ -19,7 +19,6 @@ return new class extends Migration
             $table->integer('post_id');
             $table->string('texto');
             $table->string('multimedia');
-            $table->string('alt_imagen');
         });
     }
 

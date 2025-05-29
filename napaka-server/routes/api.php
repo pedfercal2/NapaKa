@@ -3,6 +3,7 @@
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,7 +24,13 @@ Route::middleware('auth:sanctum')->group(function() {
         return $request->user();
     });
 
-    Route::apiResource('/users', UserController::class);
+    // rutas que requiren de permisos de administrador
+    //Route::middleware('admin')->group(function(){
+        Route::post('/users/ver', [UserController::class, 'index']);
+        Route::put('/user/editar', [UserController::class, 'update']);
+        Route::apiResource('/users', UserController::class);
+    //});
+
 });
 
 Route::post('/login', [AuthController::class, 'login']);

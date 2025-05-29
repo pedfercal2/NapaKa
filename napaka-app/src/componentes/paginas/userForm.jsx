@@ -12,9 +12,17 @@ export default function UserForm(){
         email: "",
         password: "",
         biografia: "",
-        foto_perfil: "",
+        /*fotoPerfil: "",*/
         is_administrator: false
     });
+
+    const [readOnly, setReadOnly] = useState(false);
+
+    const [passwordErr, setPasswordErr] = useState([]);
+    const [nombreErr, setNombreErr] = useState([]);
+    const [emailErr, setEmailErr] = useState([]);
+    const [fotoErr, setFotoErr] = useState([]);
+    
     
     const navigate = useNavigate();
 
@@ -23,7 +31,8 @@ export default function UserForm(){
 
     if(id){
         useEffect(()=>{
-            setLoading(true)
+            setLoading(true);
+            setReadOnly(true);
             axiosClient.get(`/users/${id}`)
             .then(({data}) => {
                 setLoading(false)
@@ -46,15 +55,32 @@ export default function UserForm(){
     const onSubmit = ev => {
         ev.preventDefault()
         if (user.id) {
-          console.log(user);
-          axiosClient.put(`/users/${user.id}`, user)
-            .then(() => {
+          console.log("TIENE ID");
+          
+          var formData2 = new FormData();
+
+          formData2.append("id", user.id);
+          formData2.append("nombre", user.nombre);
+          formData2.append("email", user.email);
+          formData2.append("password", user.password);
+          formData2.append("biografia", user.biografia);
+          //formData2.append("fotoPerfil", ev.target[4].files[0]);
+
+          //setUsers({...user, fotoPerfil: ev.target[4].files[0]}) 
+          /*axiosClient.put(`/users/${user.id}`, user)*/
+          console.log(formData2);
+          axiosClient.put('/user/editar', user).then(({data}) => {
+                console.log(data);
                 navigate('/users')
             })
             .catch(err => {
               const response = err.response;
               if (response && response.status === 422) {
-                setErrors(response.data.errors)
+                // Error en la foto de perfil de usuario
+                setFotoErr([]);
+                if(response.data.errors.fotoPerfil!= null){
+                  setFotoErr(response.data.errors.fotoPerfil);
+                }
               }
             })
         } else {
@@ -70,41 +96,43 @@ export default function UserForm(){
             })
         }
       }
-
+      // input de foto de prifl en formulario:
+      /* <input type="file" onChange={ev => setUsers({...user, fotoPerfil: ev.target.value})}/>*/
     return(
     <>
-      {user.id && <h1>Editar Usuario {user.nombre}:</h1>}
-      {!user.id && <h1>Crear Usuario:</h1>}
-      <div className="card animated fadeInDown">
+      <div className="login-container">
         {loading && (
           <div className="text-center">
             Loading...
           </div>
         )}
-        {errors &&
-          <div className="alert">
-            {Object.keys(errors).map(key => (
-              <p key={key}>{errors[key][0]}</p>
-            ))}
-          </div>
-        }
+        {user.id && <h1 className="form-title">Editar Usuario {user.nombre}:</h1>}
+        {!user.id && <h1 className="form-title">Crear Usuario:</h1>}
         {!loading && (
-          <form className="login-container" onSubmit={onSubmit} encType="multipart/form-data">
-            <input defaultValue={user.nombre} readOnly placeholder="Nombre"/>
-            <hr></hr>
-            <input defaultValue={user.email} readOnly placeholder="Email"/>
-            <hr></hr>
-            <input type="password" onChange={ev => setUsers({...user, password: ev.target.value})} placeholder="Password"/>
-            <hr></hr>
-            <textarea rows="8" cols="30" value={user.biografia} onChange={ev => setUsers({...user, biografia: ev.target.value})} placeholder="Biografia"/>
-            <hr></hr>
-            <label>Foto de perfil:</label>
-            <input type="file" value={user.foto_perfil} onChange={ev => setUsers({...user, foto_perfil: ev.target.value})}/>
-            <hr></hr>
-            <label>Administrador: </label>
-            <input type="checkbox" checked={user.is_administrator} onChange={ev => setUsers({...user, is_administrator: ev.target.checked})}/>
-            <hr></hr>
-            <button className="btn">Guardar</button>
+          <form className="login-form" onSubmit={onSubmit} encType="multipart/form-data">
+            <div className="input-wrapper">
+              <input className="input-field" defaultValue={user.nombre} readOnly={readOnly}  onChange={ev => setUsers({...user, nombre: ev.target.value})} placeholder="Nombre"/>
+            </div>
+            <div className="input-wrapper">
+              <input className="input-field" defaultValue={user.email} readOnly={readOnly}  onChange={ev => setUsers({...user, email: ev.target.value})} placeholder="Email"/>
+            </div>
+            <div className="input-wrapper">
+              <input className="input-field" type="password" onChange={ev => setUsers({...user, password: ev.target.value})} placeholder="Password"/>
+            </div>
+            <div className="text-wrapper">
+              <textarea className="input-text-area" rows="8" cols="30" value={user.biografia} onChange={ev => setUsers({...user, biografia: ev.target.value})} placeholder="Biografia"/>
+            </div>
+            {/*fotoErr.map(function(data) {
+            return(
+              <p className="formErr">{data}</p>
+            )
+          })*/}
+            {/*<label>Foto de perfil:</label>*/}
+            <div className="check-wrapper">
+              <label className="admin-check-label">Administrador: </label>
+              <input className="admin-check" type="checkbox" checked={user.is_administrator} onChange={ev => setUsers({...user, is_administrator: ev.target.checked})}/>
+            </div>
+            <button className="login-button">Guardar</button>
           </form>
         )}
       </div>

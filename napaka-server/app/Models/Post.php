@@ -11,7 +11,7 @@ class Post extends Model
 
     protected $table = "posts";
 
-    protected $fillable = ['user_id', 'multimedia', 'texto', 'alt_imagen'];
+    protected $fillable = ['user_id', 'multimedia', 'texto'];
 
     public $timestamps = false;
 
@@ -25,7 +25,6 @@ class Post extends Model
         $post->user_id = $userId;
         $post->multimedia = $multimedia;
         $post->texto = $texto;
-        $post->alt_imagen = $altImagen;
         $post->save();
     }
 
@@ -40,11 +39,11 @@ class Post extends Model
         }
     }
 
-    static function editarPost($id, $texto, $multimedia, $altImagen){
+    static function editarPost($id, $texto, $multimedia){
         $post = Post::find($id);
 
         if($post != null){
-            $post->update(['texto' => $texto, 'multimedia' => $multimedia, 'alt_imagen' => $altImagen]);
+            $post->update(['texto' => $texto, 'multimedia' => $multimedia]);
             return true;
         }else{
             return false;

@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\UserResource;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -14,6 +16,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
         return UserResource::collection(
@@ -30,7 +33,6 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         $data = $request->validated();
-        $data['password'] = bcrypt($data['password']);
         $user = User::crearUser($data);
         /*return response(new UserResource($user),201);*/
         return response()->json([
@@ -57,14 +59,16 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(UpdateUserRequest $request)
     {
+        
         $data = $request->validated();
-        if(isset($data['password'])){
-            $data['password'] = bcrypt($data['password']);
-        }
+
+        $user = User::find($data['id']);
         $user->editarUser($data);
-        return new UserResource($user);
+        return response()->json([
+            'user' => $user,
+        ]);
     }
 
     /**
