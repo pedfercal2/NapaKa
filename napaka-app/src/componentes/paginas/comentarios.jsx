@@ -19,9 +19,6 @@ function comentarios(){
     }, [])
 
     const onDeleteClick = comentario => {
-        if (!window.confirm("¿Estás seguro de querer eliminar este comentario?")) {
-          return
-        }
         axiosClient.delete(`/comentario/${comentario.id}`)
           .then(() => {
             getComentarios()

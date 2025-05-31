@@ -139,6 +139,9 @@ header{
 .logo{
   width: 48px !important;
   height: 48px !important;
+  background-color: #f0f0f0;
+  border: 1px solid black;
+  cursor: pointer;
 }
 
 

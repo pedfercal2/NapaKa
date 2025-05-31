@@ -65,8 +65,8 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::apiResource('/comentario', ComentarioController::class);
     Route::post('/comentario/get-one', [ComentarioController::class, 'getOne']);
 
-    // GetLogo
-    Route::post('/getLogo', [ApiController::class, 'getLogo']);
+    // Get de inicio
+    Route::post('/index', [ApiController::class, 'index']);
 });
 
 Route::post('/login', [AuthController::class, 'login']);

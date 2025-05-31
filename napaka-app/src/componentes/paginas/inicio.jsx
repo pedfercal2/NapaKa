@@ -2,109 +2,50 @@ import { useEffect, useState } from "react";
 import axiosClient from "../../axiosClient";
 import { Link } from "react-router-dom";
 import { useStateContext } from "../../contextos/contextprovider";
+
 function inicio(){
-    const {user, token, logo, setUser, setToken, setLogo} = useStateContext();
+    const {user, token, logo,allUsers, setUser, setToken, setLogo, setAllUsers} = useStateContext();
     const [errorGeneral, setErrorGeneral] = useState([]);
+    const [postsACargarSeguidos, setPostsACargarSeguidos] = useState([]);
+    const [postsACargarMios, setPostsACargarMios] = useState([]);
+
 
     useEffect(() => {
-        getUsers();
-        getSeguidores();
-        getSeguidos();
-        getPostsSeguidos();
-        getPostsMios();
-        getLogo();
+        getIndex()
     }, [])
 
-
-    const getLogo = () => {
+    // Función encargada de cargar todos los datos necesarios para la correcta funcionalidad de la app
+    const getIndex = () => {
       const data = {
-          user: user
+          token: token
       };
-
-      axiosClient.post('/getLogo', data)
+      
+      axiosClient.post('/index', data)
       .then(({data}) => {
-          setLogo(data.data.logo);
-      }).catch(() => {
-
+        console.log(data);
+        // Tratado de todos los datos
+        setAllUsers(data.users)
+        setLogo(data.logo);
+        setUser(data.user);
+        console.log(data.infoSeguidos);
+        setPostsACargarSeguidos(data.infoSeguidos);
+        
+        console.log(postsACargarSeguidos)
+        
+        /*setSeguidores(data.seguidores);
+        setSeguidos(data.seguidos);
+        setBloqueados(data.bloqueados);
+        setSilenciados(data.silenciados);
+        setMisPosts(data.misPosts);*/
       })
     }
 
-    const getUsers = () => {
-      console.log(user);
-        const data = {
-          user: user
-        };
-        axiosClient.post('/users/get', data)
-        .then(({data}) => {
-            
-            setUsers(data.data)
-        })
-        .catch(() => {
-            
-        })
-    }
-
-    const getSeguidores = () => {
-      console.log(user);
-        const data = {
-          user: user
-        };
-        axiosClient.post('/users/ver', data)
-        .then(({data}) => {
-            
-            setUsers(data.data)
-        })
-        .catch(() => {
-            
-        })
-    }
-
-    const getSeguidos = () => {
-      console.log(user);
-        const data = {
-          user: user
-        };
-        axiosClient.post('/users/ver', data)
-        .then(({data}) => {
-            
-            setUsers(data.data)
-        })
-        .catch(() => {
-            
-        })
-    }
-
-    const getPostsSeguidos = () => {
-      console.log(user);
-        const data = {
-          user: user
-        };
-        axiosClient.post('/users/ver', data)
-        .then(({data}) => {
-            
-            setUsers(data.data)
-        })
-        .catch(() => {
-            
-        })
-    }
-
-    const getPostsMios = () => {
-      console.log(user);
-        const data = {
-          user: user
-        };
-        axiosClient.post('/users/ver', data)
-        .then(({data}) => {
-            setUsers(data.data)
-        })
-        .catch(() => {
-            
-        })
-    }
-
     return (
-        <>ILLO</>
+        <>
+          {/*postsACargar.map(p => {
+
+          })*/}     
+        </>
     )
 }
 

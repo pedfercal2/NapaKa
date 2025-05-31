@@ -36,7 +36,7 @@ function DefaultLayout(){
                             <div className="divUserInfo d-flex">
                                 <div className="logo-container d-flex">
                                     <div className="logo-inside-container d-flex">
-                                        <img className="logo" src={logo} alt="Logo"></img>
+                                        <Link to="/inicio"><img className="logo" src={logo} alt="Logo"></img></Link>
                                     </div>
                                     <div className="admin-container">
                                         <Link className="headerLink header-text" to="/users">ADMINISTRAR</Link>
@@ -68,7 +68,7 @@ function DefaultLayout(){
                         <div className="main-header">
                             <div className="divUserInfo d-flex">
                                 <div className="logo-container">
-                                    <img className="logo" src={logo} alt="Logo"></img>
+                                    <Link to="/inicio"><img className="logo" src={logo} alt="Logo"></img></Link>
                                 </div>
                                 <div className="header-right-container">
                                     <div className="d-flex m-auto user-header-container">

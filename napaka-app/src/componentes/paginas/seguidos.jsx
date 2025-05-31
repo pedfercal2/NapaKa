@@ -60,8 +60,8 @@ function seguidos(){
               <th className="celda-admin-tabla">ID</th>
               <th className="celda-admin-tabla">Id_seguido</th>
               <th className="celda-admin-tabla">Id_usuario</th>
-              <th className="celda-admin-tabla">Is_silenciado</th>
               <th className="celda-admin-tabla">Is_bloqueado</th>
+              <th className="celda-admin-tabla">Is_silenciado</th>
               <th className="celda-admin-tabla">Acciones</th>
             </tr>
             </thead>

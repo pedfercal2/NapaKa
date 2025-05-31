@@ -22,11 +22,13 @@ class Seguido extends Model
         return $seguidos;
     }
 
-    static function yaSigueAlUsuario($id_usuario, $id_seguido){
+    static function yaSigueAlUsuario($id_usuario, $id_seguido, $id = null){
         $seguidos = Seguido::where("id_usuario", $id_usuario)->get();
 
         foreach($seguidos as $seguido){
-            if($seguido->id_seguido == $id_seguido){
+            if($id == $seguido->id){
+                return false;
+            }elseif($seguido->id_seguido == $id_seguido && $seguido->id_usuario == $id_usuario){
                 return true;
             }
         }
@@ -86,16 +88,6 @@ class Seguido extends Model
         }
     }
 
-    static function isSeguido($userId, $idSeguido){
-        $seguidos = Seguido::where('id_usuario', $userId)->where('id_seguido', $idSeguido)->get();
-
-        if(count($seguidos) > 0){
-            return true;
-        }else{
-            return false;
-        }
-    }
-
     static function getAllSeguidosDeUsuario($idUsuario){
         $seguidos = Seguido::where('id_usuario',$idUsuario)->get();
         return $seguidos;
@@ -104,7 +96,7 @@ class Seguido extends Model
     static function editarSeguido($data){
         $seguido = Seguido::find($data["id"]);
 
-        if(Seguido::yaSigueAlUsuario($data["id_usuario"], $data["id_seguido"])){
+        if(Seguido::yaSigueAlUsuario($data["id_usuario"], $data["id_seguido"],$data["id"])){
             return false;
         }
 

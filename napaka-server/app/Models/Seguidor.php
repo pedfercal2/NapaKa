@@ -42,14 +42,18 @@ class Seguidor extends Model
 
 
     // Funcion que determina si ya se sigue al usuario, para evitar duplicados en la bbdd
-    static function isSeguidor($userId, $idSeguidor){
+    static function isSeguidor($userId, $idSeguidor, $id=null){
         $seguidores = Seguidor::where('id_usuario', $userId)->where('id_seguidor', $idSeguidor)->get();
 
-        if(count($seguidores) > 0){
-            return true;
-        }else{
-            return false;
+        foreach($seguidores as $seguidor){
+            if($id == $seguidor->id){
+                return false;
+            }else{
+                return true;
+            }
         }
+
+        return false;
     }
 
     static function getAllSeguidoresDeUsuario($idUsuario){
@@ -59,8 +63,8 @@ class Seguidor extends Model
 
     static function editarSeguidor($data){
         $seguidor = Seguidor::find($data["id"]);
-
-        if(Seguidor::isSeguidor($data["id_usuario"], $data["id_seguidor"])){
+        
+        if(Seguidor::isSeguidor($data["id_usuario"], $data["id_seguidor"], $data["id"])){
             return false;
         }
 
