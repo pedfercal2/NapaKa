@@ -29,11 +29,22 @@ class StoreUserRequest extends FormRequest
             'email' => 'required|email|unique:users,email',
             'password' => [
                 'required',
-                Password::min(8)->letters()
             ],
             'biografia' => 'nullable',
             //'foto_perfil' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'is_administrator' => 'boolean'
+        ];
+    }
+
+    
+    public function messages(){
+        return [
+            'nombre.required' => 'Este campo es obligatorio.',
+            'nombre.unique' => 'Este nombre ya existe, por favor elija otro distinto.',
+            'email.required' => "Este campo es obligatorio.",
+            'email.unique' => 'Este email ya está en uso, por favor utilice otro distinto.',
+            'password.required' => 'La contraseña es obligatoria.',
+            'password' => 'La contraseña debe de tener mínimo 8 caracteres y entre ellos debe haber al menos 1 letra.',
         ];
     }
 }

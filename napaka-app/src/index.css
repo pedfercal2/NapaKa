@@ -78,11 +78,11 @@ header{
   border: black 1px solid;
   padding: 5px;
   margin: 0 3px;
-  background-color: #466337;
+  background-color: #89ca68;
 }
 
 .header-text{
-  color: #9fc771 !important;
+  color: #4e6434 !important;
 }
 
 .main-header{
@@ -96,3 +96,70 @@ header{
   margin-left: 0.6rem;
 }
 
+.logo{
+  max-width: 40px;
+  max-height: 40px;
+}
+
+.celda-admin-tabla{
+  background-color: #466337 !important;
+  color: #9fc771 !important;
+  border: black solid 1px;
+}
+
+.tititulo-form{
+  text-align: center;
+  background-color: #466337;
+  margin: 0 !important;
+  padding: 0 !important;
+  color: #9fc771 !important;
+  border: black solid 1px;
+}
+
+.nuevo-elemento-form{
+  text-align: center;
+  background-color: #466337;
+  margin: 0 !important;
+  padding: 0 !important;
+  color: #9fc771 !important;
+  border: black solid 1px;
+  text-decoration: none;
+  max-width: 1320px !important;
+  min-width: 1320px !important;
+}
+
+.div-tabla{
+  height: fit-content !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.btn-edit, .btn-delete{
+  background-color: #89ca68;
+  text-decoration: none;
+  padding: 0.4rem;
+  border: 1px solid black;
+  color: #4e6434;
+}
+
+.boton{
+  background-color: #89ca68;
+  text-decoration: none;
+  padding: 0.4rem;
+  border: 1px solid black;
+  color: #4e6434;
+}
+
+.selector-admin{
+  margin-top: 8rem !important;
+  margin-bottom: 3rem !important;
+}
+
+img[src=""] {
+    display: none !important;
+}
+
+.form-admin{
+  display: block !important;
+  text-align: center;
+}

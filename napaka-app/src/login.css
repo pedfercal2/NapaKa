@@ -147,7 +147,58 @@
     color: #c9eaa0;
 }
 
+.form-admin{
+    display: block !important;
+}
 
+.form-admin .input-wrapper{
+    align-items: start;
+    width: fit-content;
+}
 
+.form-admin .text-wrapper{
+    align-items: start;
+    width: 100%;
+}
 
+.form-admin .input-text-area{
+    min-width: 100% !important;
+    max-width: 100% !important;
+    margin: 0.3rem;;
+    height: 12rem;
+    align-self: start;
+}
 
+.input-form-admin{
+    margin: 0.2rem !important;
+    padding: 0.5rem;
+    width: 100%;
+    color: #c9eaa0;
+    background-color: #748a68;
+    border: 1px solid black !important;
+}
+
+.form-admin .login-button{
+    width: 100%;
+    height: 3rem;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: #c9eaa0;
+    background-color: #748a68;
+    margin-top: 1.19rem;
+    border-radius: 0.31rem;
+}
+
+.form-admin .login-button:hover{
+   background: #aeb6ae; 
+}
+
+.label-form-admin{
+    margin: 0.2rem !important;
+    width: 100%;
+    color: #c9eaa0;
+    border: none !important;
+}

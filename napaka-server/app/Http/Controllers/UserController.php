@@ -79,8 +79,12 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->delete();
-
-        return response('',204);
+        if(User::deleteUser($user->id)){
+            return response('',204);   
+        }else{
+            return response()->json([
+                "Error" => "Error en el servidor, vuelva a intentarlo.",
+            ]);
+        }
     }
 }

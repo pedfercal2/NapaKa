@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -29,6 +30,14 @@ Route::middleware('auth:sanctum')->group(function() {
         Route::post('/users/ver', [UserController::class, 'index']);
         Route::put('/user/editar', [UserController::class, 'update']);
         Route::apiResource('/users', UserController::class);
+
+        Route::post('/posts/ver', [PostController::class, 'index']);
+
+        //Debe ser POST, si no da problemas al pasar un formData desde el cliente, es un error conocido por lo que he estado buscando
+        Route::post('/post/editar', [PostController::class, 'update']);
+
+        Route::apiResource('/post', PostController::class);
+        Route::post('/post/get-one', [PostController::class, 'getOne']);
     //});
 
 });

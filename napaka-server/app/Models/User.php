@@ -6,9 +6,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\HasApiTokens;
+use Throwable;
 
 class User extends Authenticatable
 {
@@ -57,12 +59,11 @@ class User extends Authenticatable
         if(isset($data["fotoPerfil"])){
             $imageName = time() . '.' . $data["fotoPerfil"]->getClientOriginalExtension();
             $data["fotoPerfil"]->move($uploadPath, $imageName);
-            $usuario->foto_perfil = $imageName;
         }else{
             $imageName = "default.png";
-
-            $usuario->foto_perfil = asset('imagenes/'. basename($imageName));
         }
+
+        $usuario->foto_perfil = asset('imagenes/'. basename($imageName));
 
         if(isset($data["is_administrator"])){
             $usuario->is_administrator = $data["is_administrator"];
@@ -81,11 +82,40 @@ class User extends Authenticatable
     static function deleteUser($id){
         $user = User::find($id);
 
-        if($user != null){
+        try{
+            DB::beginTransaction();
+            if($user != null){
+
+            //Borrar Posts
+            $posts = Post::where("user_id", $user->id)->get();
+
+            foreach($posts as $post){
+                // Borrar Likes de post
+                Like::where("post_id", $post->id)->delete();
+                // Borrar comentarios de post
+                Comentario::where("post_id", $post->id)->delete();
+
+                $post->delete();
+            }
+
+            // Borrar likes de usuario
+            Like::where("user_id", $user->id)->delete();
+
+            //Borrar comentarios de usuario
+            Comentario::where("user_id", $user->id)->delete();
+
+            //Borrar seguidores
+            Seguidor::where("id_usuario", $user->id)->orWhere("id_seguidor", $user->id)->delete();
+            //Borrar seguidos
+            Seguido::where("id_usuario", $user->id)->orWhere("id_seguido", $user->id)->delete();
+            //Borrar usuario
             $user->delete();
+            DB::commit();
             return true;
-        }else{
-            return false;
+            }
+        }catch(Throwable $e){
+                DB::rollBack();
+                return false;
         }
     }
 

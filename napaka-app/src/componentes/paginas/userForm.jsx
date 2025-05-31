@@ -71,6 +71,7 @@ export default function UserForm(){
           console.log(formData2);
           axiosClient.put('/user/editar', user).then(({data}) => {
                 console.log(data);
+                alert("Usuario editado correctamente.");
                 navigate('/users')
             })
             .catch(err => {
@@ -86,6 +87,7 @@ export default function UserForm(){
         } else {
           axiosClient.post('/users', user)
             .then(() => {
+                alert("Usuario creado correctamente.");
                 navigate('/users');
             })
             .catch(err => {
@@ -107,7 +109,7 @@ export default function UserForm(){
           </div>
         )}
         {user.id && <h1 className="form-title">Editar Usuario {user.nombre}:</h1>}
-        {!user.id && <h1 className="form-title">Crear Usuario:</h1>}
+        {!user.id && <h1 className="form-title">Crear Usuario</h1>}
         {!loading && (
           <form className="login-form" onSubmit={onSubmit} encType="multipart/form-data">
             <div className="input-wrapper">

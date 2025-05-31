@@ -23,6 +23,11 @@ function Login() {
       setToken(data.token);
       setErrores(data.message);
       console.log(data);
+      if(user && token){
+        return (
+          <Navigate to='/inicio'/>
+        )
+      }
     }).catch(err => {
       const response = err.response;
       if(response && response.status === 422){
