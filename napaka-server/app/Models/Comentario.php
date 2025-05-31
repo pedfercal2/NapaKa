@@ -20,33 +20,78 @@ class Comentario extends Model
         return $comentarios;
     }
 
-    static function crearComentario($userId, $postId, $texto, $multimedia){
+    static function crearComentario($data){
         $comentario = new Comentario;
-        $comentario->user_id = $userId;
-        $comentario->post_id = $postId;
-        $comentario->texto = $texto;
-        $comentario->multimedia = $multimedia;
-        $comentario->save();
-    }
 
-    static function borrarComentario($id){
-        $comentario = Comentario::find($id);
-
-        if($comentario != null){
-            $comentario->delete();
-            return true;
-        }else{
+        if(Comentario::usuarioYaHaComentado($data["user_id"], $data["post_id"])){
             return false;
+        }else{
+            $comentario->user_id = $data["user_id"];
+            $comentario->post_id = $data["post_id"];
+            $comentario->texto = $data["texto"];
+
+            $uploadPath = public_path('imagenes');
+            if(!file_exists($uploadPath)){
+                mkdir($uploadPath, 0777, true);
+            }
+
+            if(isset($data["multimedia"])){
+                $imageName = time() . '.' . $data["multimedia"]->getClientOriginalExtension();
+                $data["multimedia"]->move($uploadPath, $imageName);
+                $comentario->multimedia = asset('imagenes/'. basename($imageName));   
+            }else{
+                $comentario->multimedia = null;   
+            }
         }
+
+        $comentario->save();
+        return true;
     }
 
-    static function editarComentario($id, $texto, $multimedia){
-        $comentario = Comentario::find($id);
+    static function usuarioYaHaComentado($user_id, $post_id, $id=null){
+        $comentarios = Comentario::getAllComentarios($user_id);
+
+        foreach ($comentarios as $comentario){
+            if($id == $comentario->id){
+                return false;
+            }elseif($comentario->user_id == $user_id && $comentario->post_id == $post_id){
+                return true;
+            }
+
+        }
+
+        return false;
+    }
+
+    static function deleteComentario($id){
+        $comentario = Comentario::find($id)->delete();
+        return true;
+    }
+
+    static function editarComentario($data){
+        $comentario = Comentario::find($data["id"]);
         if($comentario != null){
-            $comentario->texto = $texto;
-            $comentario->multimedia = $multimedia;
-            $comentario->save();
-            return true;
+            if(Comentario::usuarioYaHaComentado($data["user_id"], $data["post_id"], $data["id"])){
+                return false;
+            }else{
+                $comentario->texto = $data["texto"];
+                $comentario->user_id = $data["user_id"];
+                $comentario->post_id = $data["post_id"];
+
+                $uploadPath = public_path('imagenes');
+                if(!file_exists($uploadPath)){
+                    mkdir($uploadPath, 0777, true);
+                }
+
+                if(isset($data["multimedia"])){
+                    $imageName = time() . '.' . $data["multimedia"]->getClientOriginalExtension();
+                    $data["multimedia"]->move($uploadPath, $imageName);
+                    $comentario->multimedia = asset('imagenes/'. basename($imageName));   
+                }
+
+                $comentario->save();
+                return true;
+            }
         }else{
             return false;
         }

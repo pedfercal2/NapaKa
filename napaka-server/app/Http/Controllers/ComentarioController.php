@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Comentario;
 use App\Http\Requests\StoreComentarioRequest;
 use App\Http\Requests\UpdateComentarioRequest;
+use App\Http\Resources\ComentarioResource;
+use Illuminate\Validation\ValidationException;
 
 class ComentarioController extends Controller
 {
@@ -15,17 +17,9 @@ class ComentarioController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return ComentarioResource::collection(
+            Comentario::query()->orderBy('id','desc')->get()
+        );
     }
 
     /**
@@ -36,7 +30,16 @@ class ComentarioController extends Controller
      */
     public function store(StoreComentarioRequest $request)
     {
-        //
+        $data = $request->validated();
+        
+        if($comentario = Comentario::crearComentario($data)){
+            return response()->json([
+            'comentario' => $comentario,
+            'status' => 201
+            ]);
+        }else{
+            throw ValidationException::withMessages(['error' => 'Este usuario ya ha comentado en el post.']);
+        }
     }
 
     /**
@@ -47,18 +50,7 @@ class ComentarioController extends Controller
      */
     public function show(Comentario $comentario)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Comentario  $comentario
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Comentario $comentario)
-    {
-        //
+        return new ComentarioResource($comentario);
     }
 
     /**
@@ -70,7 +62,13 @@ class ComentarioController extends Controller
      */
     public function update(UpdateComentarioRequest $request, Comentario $comentario)
     {
-        //
+        $data = $request->validated();
+
+        $comentario = Comentario::find($data['id']);
+        $comentario->editarComentario($data);
+        return response()->json([
+            'comentario' => $comentario,
+        ]);
     }
 
     /**
@@ -81,6 +79,16 @@ class ComentarioController extends Controller
      */
     public function destroy(Comentario $comentario)
     {
-        //
+        if(Comentario::deleteComentario($comentario->id)){
+            return response('',204);   
+        }else{
+            return response()->json([
+                "Error" => "Error en el servidor, vuelva a intentarlo.",
+            ]);
+        }
+    }
+
+    public function getOne($id){
+        return response()->json(Comentario::find($id)->get());
     }
 }

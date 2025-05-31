@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 const SelectorAdministrar = () =>{
     return (
         <div className="d-flex selector-admin">
-          <Link className="boton m-auto" to="/users">Usuarios</Link>
-          <Link className="boton m-auto" to="/posts">Posts</Link>
-          <Link className="boton m-auto">Likes</Link>
-          <Link className="boton m-auto">Comentarios</Link>
-          <Link className="boton m-auto">Seguidores</Link>
-          <Link className="boton m-auto">Seguidos</Link>
+          <Link className="boton-selector-admin m-auto" to="/users">Usuarios</Link>
+          <Link className="boton-selector-admin" to="/posts">Posts</Link>
+          <Link className="boton-selector-admin" to="/likes">Likes</Link>
+          <Link className="boton-selector-admin" to="/comentarios">Comentarios</Link>
+          <Link className="boton-selector-admin" to="/seguidores">Seguidores</Link>
+          <Link className="boton-selector-admin" to="/seguidos">Seguidos</Link>
         </div>
     )
 }

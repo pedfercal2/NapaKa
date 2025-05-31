@@ -54,11 +54,12 @@ function users(){
         return(
         <div className="container">
           <SelectorAdministrar></SelectorAdministrar>
-        <div className="div-tabla">
-          <div className="row nuevo-elemento-form p-0 m-0">
-              <h1 className="col-10 m-0 p-0 tititulo-form">Users</h1>
-              <Link className="col-2 align-middle m-0 p-0 btn-edit" to="/users/new">Nuevo...</Link>
-          </div>
+        <div className="titulo-container-admin-table d-flex">
+                <h1 className="m-0 p-0 m-8 titulo-admin-form">Usuarios</h1>
+                <Link to="/users/new" className="admin-wrap-nuevo">
+                    <span className="align-middle nuevo-elemento-admin-table">Nuevo...</span>
+                </Link>
+            </div>
           <table className="table table-hover tabla-admin">
             <thead>
             <tr>
@@ -104,11 +105,11 @@ function users(){
                     <td className="celda-admin-tabla">{u.id}</td>
                     <td className="celda-admin-tabla">{u.nombre}</td>
                     <td className="celda-admin-tabla">{u.email}</td>
-                    <td className="celda-admin-tabla"><img className="img-thumbnail border border-black p-2" src={u.foto_perfil}></img></td>
+                    <td className="celda-admin-tabla"><img className="img-admin" src={u.foto_perfil}></img></td>
                     <td className="celda-admin-tabla">{u.is_administrator}</td>
                     <td className="celda-admin-tabla">
                         <Link className="btn-edit" to={'/users/' + u.id}>Edit</Link>
-                        <a className="btn-delete" onClick={ev => onDeleteClick(u)}>Delete</a>
+                        <a className="btn-delete pointer-hand" onClick={ev => onDeleteClick(u)}>Delete</a>
                   </td>
                 </tr>)
                 }}
@@ -117,18 +118,11 @@ function users(){
             }
           </table>
         </div>
-      </div>
     )
     }else{
       return(
         <>{loading &&
-              <tbody>
-              <tr>
-                <td colSpan="5" className="text-center">
-                  Cargando...
-                </td>
-              </tr>
-              </tbody>
+              <p>Cargando...</p>
             }{!loading &&
               <p>No eres administrador, pillín</p>}</>
       )

@@ -44,7 +44,6 @@ body {
 }
 
 header{
-  display: flex;
   width: 100%;
   min-height: 4vw;
   max-height: 4vw;
@@ -57,10 +56,17 @@ header{
 }
 
 .divUserInfo{
-  position: absolute;
-  right: 0;
-  margin: 1.4rem;
+  margin: 0 !important;
   text-align: right;
+  height: 5rem !important;
+  width: 100% !important;
+}
+
+.logo-container{
+  margin-left: 0.4rem;
+  width: 80%;
+  text-align: left;
+  align-content: center;
 }
 
 .btnLogout{
@@ -71,6 +77,40 @@ header{
 
 #foto-user{
   margin: 0 1.5rem;
+}
+
+.header-right-container{
+  width: 20%;
+  display: flex;
+  text-align: right;
+  align-content: center;
+}
+
+.logo-inside-container{
+  height: 100%;
+  width: 30%;
+  text-align: left;
+  align-items: center;
+}
+
+.user-header-container{
+  height: 100%;
+  width: 60%;
+  text-align: left;
+}
+
+.admin-container{
+  height: 100%;
+  align-content: center;
+  text-align: right;
+  width: 70%;
+}
+
+.logout-container{
+  width: 40%;
+  height: 100%;
+  text-align: center;
+  align-content: center;
 }
 
 .headerLink{
@@ -88,7 +128,7 @@ header{
 .main-header{
   background-color: #6b943d;
   margin: 0 !important;
-  width: 100%;
+  width: 100% !important;
   padding: 0;
 }
 
@@ -97,9 +137,10 @@ header{
 }
 
 .logo{
-  max-width: 40px;
-  max-height: 40px;
+  width: 48px !important;
+  height: 48px !important;
 }
+
 
 .celda-admin-tabla{
   background-color: #466337 !important;
@@ -150,16 +191,65 @@ header{
   color: #4e6434;
 }
 
+.boton-selector-admin{
+  background-color: #89ca68;
+  text-decoration: none;
+  border: 1px solid black;
+  color: #4e6434;
+  margin: auto;
+  width: 100%;
+  text-align: center;
+  height: 3rem;
+  padding-top: 0.6rem;
+}
+
 .selector-admin{
   margin-top: 8rem !important;
   margin-bottom: 3rem !important;
+
 }
 
 img[src=""] {
     display: none !important;
 }
 
-.form-admin{
-  display: block !important;
+.titulo-admin-form{
+    color: #c9eaa0;
+    background-color: #466337;
+    border: 1px solid black !important;
+    padding: 0.5rem;
+    width: 72.5%;
+    text-align: center;
+}
+
+.nuevo-elemento-admin-table{
+  margin: auto;
+  color: #c9eaa0;
+  text-decoration: none;
+  padding-top: 1rem;
+}
+
+.admin-wrap-nuevo{
+  color: #c9eaa0;
+  background-color: #466337;
+  border: 1px solid black !important;
+  width: 27.5%;
   text-align: center;
+  text-decoration: none;
+  font-weight: 600;
+  margin: auto;
+  margin-bottom: 0 !important;
+  padding: 0;
+  padding-top: 0.7rem;
+  min-height: 4.2rem;
+  height: 100% !important;
+}
+
+.pointer-hand:hover{
+    cursor: pointer;
+}
+
+.img-admin{
+  max-width: 48px;
+  max-height: 48px;
 }

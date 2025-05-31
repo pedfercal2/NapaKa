@@ -13,18 +13,23 @@ class StoreLikeRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, mixed>
-     */
     public function rules()
     {
         return [
-            //
+            'user_id' => 'required|exists:users,id',
+            'post_id' => 'required|exists:posts,id',
+        ];
+    }
+
+    public function messages(){
+        return [
+            'user_id.exists' => 'El usuario indicado no existe, por favor ponga un usuario existente.',
+            'user_id.required' => "El id de usuario es necesario.",
+            'post_id.required' => "El id de post es necesario.",
+            'post_id.exists' => 'El post indicado no existe, por favor ponga un post existente.',
         ];
     }
 }

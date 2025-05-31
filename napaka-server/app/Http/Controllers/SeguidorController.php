@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Seguidor;
 use App\Http\Requests\StoreSeguidorRequest;
 use App\Http\Requests\UpdateSeguidorRequest;
+use App\Http\Resources\SeguidorResource;
+use Illuminate\Validation\ValidationException;
 
 class SeguidorController extends Controller
 {
@@ -15,19 +17,10 @@ class SeguidorController extends Controller
      */
     public function index()
     {
-        //
+        return SeguidorResource::collection(
+            Seguidor::query()->orderBy('id','desc')->get()
+        ); 
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -36,7 +29,14 @@ class SeguidorController extends Controller
      */
     public function store(StoreSeguidorRequest $request)
     {
-        //
+        $data = $request->validated();
+        if(Seguidor::seguir($data)){
+            return response()->json([
+                'status' => 201
+            ]);
+        }else{
+            throw ValidationException::withMessages(['error' => 'Este usuario ya sigue a esta cuenta.']);
+        }
     }
 
     /**
@@ -47,18 +47,7 @@ class SeguidorController extends Controller
      */
     public function show(Seguidor $seguidor)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Seguidor  $seguidor
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Seguidor $seguidor)
-    {
-        //
+        return new SeguidorResource($seguidor);
     }
 
     /**
@@ -70,7 +59,15 @@ class SeguidorController extends Controller
      */
     public function update(UpdateSeguidorRequest $request, Seguidor $seguidor)
     {
-        //
+        $data = $request->validated();
+
+        if($seguidor->editarSeguidor($data)){
+            return response()->json([
+                'seguidor' => $seguidor,
+            ]);
+        }else{
+            throw ValidationException::withMessages(['error' => 'Este usuario ya sigue a esta cuenta.']);
+        }
     }
 
     /**
@@ -81,6 +78,12 @@ class SeguidorController extends Controller
      */
     public function destroy(Seguidor $seguidor)
     {
-        //
+        if(Seguidor::deleteSeguidor($seguidor->id)){
+            return response('',204);   
+        }else{
+            return response()->json([
+                "Error" => "Error en el servidor, vuelva a intentarlo.",
+            ]);
+        }
     }
 }

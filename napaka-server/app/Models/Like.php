@@ -33,17 +33,20 @@ class Like extends Model
         return $yaLikeado;
     }
 
-    static function darLike($userId, $postId){
+    static function crearLike($data){
 
-        if(!Post::yaHaLikeado($userId, $postId)){
+        if(!Like::yaHaLikeado($data["user_id"], $data["post_id"])){
             $like = new Like;
-            $like->user_id = $userId;
-            $like->post_id = $postId;
+            $like->user_id = $data["user_id"];
+            $like->post_id = $data["post_id"];
             $like->save();
+            return true;
+        }else{
+            return false;
         }
     }
 
-    static function quitarLike($id){
+    static function deleteLike($id){
         $like = Like::find($id);
         if($like != null){
             $like->delete();
@@ -56,5 +59,20 @@ class Like extends Model
     static function getAllLikesDeUsuario($idUsuario){
         $likes = Like::where('user_id',$idUsuario)->get();
         return $likes;
+    }
+
+    static function editarLike($data){
+        $like = Like::find($data["id"]);
+
+        // Comprobar que el usuario no le ha dado ya like a ese post
+        
+        if(Like::yaHaLikeado($data["user_id"], $data["post_id"])){
+            return false;
+        }else{
+            $like->user_id = $data["user_id"];
+            $like->post_id = $data["post_id"];
+            $like->save();
+            return true;
+        }
     }
 }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Like;
 use App\Http\Requests\StoreLikeRequest;
 use App\Http\Requests\UpdateLikeRequest;
+use App\Http\Resources\LikeResource;
+use Illuminate\Validation\ValidationException;
 
 class LikeController extends Controller
 {
@@ -15,17 +17,9 @@ class LikeController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return LikeResource::collection(
+            Like::query()->orderBy('id','desc')->get()
+        ); 
     }
 
     /**
@@ -36,29 +30,25 @@ class LikeController extends Controller
      */
     public function store(StoreLikeRequest $request)
     {
-        //
+        $data = $request->validated();
+        if(Like::crearLike($data)){
+            return response()->json([
+                'status' => 201
+            ]);
+        }else{
+            throw ValidationException::withMessages(['error' => 'Este usuario ya ha dado like a ese mismo post.']);
+        }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Like  $like
+     * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
     public function show(Like $like)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Like  $like
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Like $like)
-    {
-        //
+        return new LikeResource($like);
     }
 
     /**
@@ -70,7 +60,15 @@ class LikeController extends Controller
      */
     public function update(UpdateLikeRequest $request, Like $like)
     {
-        //
+        $data = $request->validated();
+
+        if($like->editarLike($data)){
+            return response()->json([
+                'like' => $like,
+            ]);
+        }else{
+            throw ValidationException::withMessages(['error' => 'Este usuario ya ha dado like a ese mismo post.']);
+        }
     }
 
     /**
@@ -81,6 +79,12 @@ class LikeController extends Controller
      */
     public function destroy(Like $like)
     {
-        //
+        if(Like::deleteLike($like->id)){
+            return response('',204);   
+        }else{
+            return response()->json([
+                "Error" => "Error en el servidor, vuelva a intentarlo.",
+            ]);
+        }
     }
 }

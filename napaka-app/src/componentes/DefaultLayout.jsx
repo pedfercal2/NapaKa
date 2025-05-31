@@ -27,45 +27,66 @@ function DefaultLayout(){
             setUser(data)
         })
     },[])
-
     if(user.is_administrator==1){
         return(
-        <div id="defaultLayout">
-            <div className="content">
-                <header className="main-header">
-                    <div className="divUserInfo">
-                        <img className="logo" src={logo} alt="Logo"></img>
-                        <Link className="headerLink header-text" to="/users">ADMINISTRAR</Link>
-                        <img className="" src={user.foto_perfil}></img>
-                        <span className="header-text">{user.nombre}</span>
-                        <a href="#" onClick={onLogout} className="header-text headerLink">Logout</a>
-                    </div>
-                </header>
-                <main>
-                    <Outlet />
-                </main>
+            <div id="defaultLayout">
+                <div className="content">
+                    <header className="d-flex">
+                        <div className="main-header">
+                            <div className="divUserInfo d-flex">
+                                <div className="logo-container d-flex">
+                                    <div className="logo-inside-container d-flex">
+                                        <img className="logo" src={logo} alt="Logo"></img>
+                                    </div>
+                                    <div className="admin-container">
+                                        <Link className="headerLink header-text" to="/users">ADMINISTRAR</Link>
+                                    </div>
+                                </div>
+                                <div className="header-right-container">
+                                    <div className="d-flex m-auto user-header-container">
+                                        <img className="logo m-auto mr-0" src={user.foto_perfil}></img>
+                                        <span className="header-text m-auto ml-0">{user.nombre}</span>
+                                    </div>
+                                    <div className="logout-container">
+                                        <a href="#" onClick={onLogout} className="header-text headerLink m-auto">Logout</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+                    <main>
+                        <Outlet />
+                    </main>
+                </div>
             </div>
-        </div>
-    )
+        )    
     }else{
         return(
-        <div id="defaultLayout">
-            <div className="content">
-                <header>
-                    <div className="main-header container">
-                        <div className="divUserInfo">
-                            <img className="col-2" src={logo} alt="Logo"></img>
-                            <img className="col-2" src={user.foto_perfil}></img>
-                            <span className="col-2 header-text">{user.nombre}</span>
-                            <a href="#" onClick={onLogout} className="col-2 header-text headerLink">Logout</a>
-                    </div>
-                    </div>
-                </header>
-                <main>
-                    <Outlet />
-                </main>
+            <div id="defaultLayout">
+                <div className="content">
+                    <header className="d-flex">
+                        <div className="main-header">
+                            <div className="divUserInfo d-flex">
+                                <div className="logo-container">
+                                    <img className="logo" src={logo} alt="Logo"></img>
+                                </div>
+                                <div className="header-right-container">
+                                    <div className="d-flex m-auto user-header-container">
+                                        <img className="logo m-auto mr-0" src={user.foto_perfil}></img>
+                                        <span className="header-text m-auto ml-0">{user.nombre}</span>
+                                    </div>
+                                    <div className="logout-container">
+                                        <a href="#" onClick={onLogout} className="header-text headerLink m-auto">Logout</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+                    <main>
+                        <Outlet />
+                    </main>
+                </div>
             </div>
-        </div>
     ) 
     }  
 }

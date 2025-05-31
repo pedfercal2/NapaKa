@@ -5,8 +5,8 @@ import { useStateContext } from "../../contextos/contextprovider";
 import SelectorAdministrar from "../SelectortAdministrar";
 import { Navigate } from "react-router-dom";
 
-function posts(){
-    const [posts, setPosts] = useState([]);
+function likes(){
+    const [likes, setLikes] = useState([]);
     const [loading, setLoading] = useState(true);
     const {user, token, setUser, setToken} = useStateContext(); 
 
@@ -15,32 +15,29 @@ function posts(){
     }
 
     useEffect(() => {
-        getPosts();
+        getLikes();
     }, [])
 
-    const onDeleteClick = post => {
-        if (!window.confirm("¿Estás seguro de querer eliminar este post?")) {
+    const onDeleteClick = like => {
+        if (!window.confirm("¿Estás seguro de querer eliminar este like?")) {
           return
         }
-        axiosClient.delete(`/post/${post.id}`)
+        axiosClient.delete(`/like/${like.id}`)
           .then(() => {
-            getPosts()
+            getLikes()
           })
       }
 
-    const getPosts = () => {
+    const getLikes = () => {
         const data = {
           user: user
         };
         setLoading(true);
-        axiosClient.post('/posts/ver', data)
+        axiosClient.post('/likes/ver', data)
         .then(({data}) => {
             setLoading(false)
             console.log(data);
-            if(data.data.multimedia == null){
-                data.data.multimedia = "no";
-            }
-            setPosts(data.data)
+            setLikes(data.data)
         })
         .catch(() => {
             setLoading(false)
@@ -52,8 +49,8 @@ function posts(){
         <div className="container selector-admin">
             <SelectorAdministrar></SelectorAdministrar>
             <div className="titulo-container-admin-table d-flex">
-                <h1 className="titulo-admin-form m-0">Posts</h1>
-                <Link to="/posts/new" className="admin-wrap-nuevo m-0">
+                <h1 className="titulo-admin-form m-0">Likes</h1>
+                <Link to="/likes/new" className="admin-wrap-nuevo">
                     <span className="align-middle nuevo-elemento-admin-table">Nuevo...</span>
                 </Link>
             </div>
@@ -62,8 +59,7 @@ function posts(){
             <tr>
               <th className="celda-admin-tabla">ID</th>
               <th className="celda-admin-tabla">User_id</th>
-              <th className="celda-admin-tabla">Multimedia</th>
-              <th className="celda-admin-tabla">Texto</th>
+              <th className="celda-admin-tabla">Post_id</th>
               <th className="celda-admin-tabla">Acciones</th>
             </tr>
             </thead>
@@ -78,16 +74,15 @@ function posts(){
             }
             {!loading &&
               <tbody>
-                {posts.map(p => {
+                {likes.map(l => {
                   return(
-                  <tr key={p.id}>
-                    <td className="celda-admin-tabla">{p.id}</td>
-                    <td className="celda-admin-tabla">{p.user_id}</td>
-                    <td className="celda-admin-tabla"><img className="img-admin" src={p.multimedia} alt=""></img></td>
-                    <td className="celda-admin-tabla">{p.texto}</td>
+                  <tr key={l.id}>
+                    <td className="celda-admin-tabla">{l.id}</td>
+                    <td className="celda-admin-tabla">{l.user_id}</td>
+                    <td className="celda-admin-tabla">{l.post_id}</td>
                     <td className="celda-admin-tabla">
-                        <Link className="btn-edit " to={'/post/' + p.id}>Edit</Link>
-                        <a className="btn-delete pointer-hand" onClick={ev => onDeleteClick(p)}>Delete</a>
+                        <Link className="btn-edit " to={'/like/' + l.id}>Edit</Link>
+                        <a className="btn-delete pointer-hand" onClick={ev => onDeleteClick(l)}>Delete</a>
                   </td>
                 </tr>)
                 }
@@ -100,11 +95,13 @@ function posts(){
     }else{
       return(
         <>{loading &&
-              <p>Cargando...</p>
+              <p>
+                  Cargando...
+              </p>
             }{!loading &&
               <p>No eres administrador, pillín</p>}</>
       )
     }
 }
 
-export default posts;
+export default likes;

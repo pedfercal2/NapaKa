@@ -15,18 +15,49 @@ class Seguido extends Model
 
     protected $fillable = ['id_seguido', 'id_usuario', 'is_bloqueado', 'is_silenciado'];
 
+    public $timestamps = false;
+
     static function getAllSeguidos(){
         $seguidos = Seguido::all();
         return $seguidos;
     }
 
-    static function seguir($userId, $idSeguido, $isBloqueado,$isSilenciado){
+    static function yaSigueAlUsuario($id_usuario, $id_seguido){
+        $seguidos = Seguido::where("id_usuario", $id_usuario)->get();
+
+        foreach($seguidos as $seguido){
+            if($seguido->id_seguido == $id_seguido){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    static function seguir($data){
         $seguido = new Seguido;
-        $seguido->id_seguido = $idSeguido;
-        $seguido->id_usuario = $userId;
-        $seguido->is_bloqueado = $isBloqueado;
-        $seguido->is_silenciado = $isSilenciado;
+
+        if(Seguido::yaSigueAlUsuario($data["id_usuario"], $data["id_seguido"])){
+            return false;
+        }
+        if($data["id_usuario"] == $data["id_seguido"]){
+            return false;
+        }else{
+            $seguido->id_seguido = $data["id_seguido"];
+            $seguido->id_usuario = $data["id_usuario"];
+        }
+        $bloqueado = 0;
+        $silenciado = 0;
+        if($data["is_bloqueado"] == "true"){
+            $bloqueado = 1;
+        }
+        $seguido->is_bloqueado = $bloqueado;
+        if($data["is_silenciado"] == "true"){
+            $silenciado = 1;
+        }
+        $seguido->is_silenciado = $silenciado;
         $seguido->save();
+        return true;
     }
 
     static function dejarDeSeguir($userId, $idSeguido){
@@ -68,5 +99,37 @@ class Seguido extends Model
     static function getAllSeguidosDeUsuario($idUsuario){
         $seguidos = Seguido::where('id_usuario',$idUsuario)->get();
         return $seguidos;
+    }
+
+    static function editarSeguido($data){
+        $seguido = Seguido::find($data["id"]);
+
+        if(Seguido::yaSigueAlUsuario($data["id_usuario"], $data["id_seguido"])){
+            return false;
+        }
+
+        if($seguido->id_seguido == $data["id_usuario"] || $seguido->id_usuario == $data["id_seguido"] || $data["id_usuario"] == $data["id_seguido"]){
+            return false;
+        }else{
+            $seguido->id_seguido = $data["id_seguido"];
+            $seguido->id_usuario = $data["id_usuario"];
+        }
+        $bloqueado = 0;
+        $silenciado = 0;
+        
+        if($data["is_bloqueado"] == "true"){
+            $bloqueado = 1;
+        }
+
+        $seguido->is_bloqueado = $bloqueado;
+        
+        if($data["is_silenciado"] == "true"){
+            $silenciado = 1;
+        }
+        $seguido->is_silenciado = $silenciado;
+        
+        $seguido->save();
+
+        return true;
     }
 }

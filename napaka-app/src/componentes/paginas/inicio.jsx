@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useStateContext } from "../../contextos/contextprovider";
 function inicio(){
     const {user, token, logo, setUser, setToken, setLogo} = useStateContext();
+    const [errorGeneral, setErrorGeneral] = useState([]);
 
     useEffect(() => {
         getUsers();
@@ -11,7 +12,22 @@ function inicio(){
         getSeguidos();
         getPostsSeguidos();
         getPostsMios();
+        getLogo();
     }, [])
+
+
+    const getLogo = () => {
+      const data = {
+          user: user
+      };
+
+      axiosClient.post('/getLogo', data)
+      .then(({data}) => {
+          setLogo(data.data.logo);
+      }).catch(() => {
+
+      })
+    }
 
     const getUsers = () => {
       console.log(user);
