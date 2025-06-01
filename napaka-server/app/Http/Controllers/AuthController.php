@@ -22,10 +22,13 @@ class AuthController extends Controller
 
         $user = Auth::user();
 
+        // Me sale como error en el visual estudio el ->createToken , pero funciona y si que es una función válida, con el plaintextToken devuelve en string el token hasheado
         $token = $user->createToken('main')->plainTextToken;
 
+        //Encuentro el usuario en la base de datos
         $user = User::find($user->id);
 
+        // Envio en formato json al cliente
         return response()->json([
             'user' => $user,
             'token' => $token

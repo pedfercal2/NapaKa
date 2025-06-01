@@ -26,6 +26,7 @@ class Post extends Model
         $post = new Post;
         $post->user_id = $data["user_id"];
 
+        // Control de almacenaje de ficheros
         $uploadPath = public_path('imagenes');
         if(!file_exists($uploadPath)){
             mkdir($uploadPath, 0777, true);
@@ -78,6 +79,8 @@ class Post extends Model
         if($post != null){
 
             $post->user_id = $data["user_id"];
+
+            // Control de almacenaje de ficheros
             $uploadPath = public_path('imagenes');
             if(!file_exists($uploadPath)){
                 mkdir($uploadPath, 0777, true);
@@ -102,6 +105,4 @@ class Post extends Model
         $posts = Post::where('user_id',$idUsuario)->get();
         return $posts;
     }
-
-    // toDo get all posts de seguidos no silenciados
 }

@@ -21,6 +21,8 @@ class StoreSeguidorRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
+
+     // Reglas de validación
     public function rules()
     {
         return [
@@ -29,6 +31,7 @@ class StoreSeguidorRequest extends FormRequest
         ];
     }
 
+    // Mensajes de error
     public function messages(){
         return [
             'id_seguidor.exists' => 'El usuario indicado no existe, por favor ponga un usuario existente.',

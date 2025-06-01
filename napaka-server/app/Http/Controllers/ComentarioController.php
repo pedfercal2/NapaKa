@@ -17,6 +17,7 @@ class ComentarioController extends Controller
      */
     public function index()
     {
+        // Consigo todos los comentarios, ordenados por id de forma descendiente
         return ComentarioResource::collection(
             Comentario::query()->orderBy('id','desc')->get()
         );
@@ -28,8 +29,10 @@ class ComentarioController extends Controller
      * @param  \App\Http\Requests\StoreComentarioRequest  $request
      * @return \Illuminate\Http\Response
      */
+    // llamada al crear un nuevo comentario
     public function store(StoreComentarioRequest $request)
     {
+        // Esta linea valida los datos, es usado en todos los apartados en donde se recive información del cliente, las validaciones están en la carpeta ../Request y se usa la que se pasa por parámetro
         $data = $request->validated();
         
         if($comentario = Comentario::crearComentario($data)){
@@ -60,6 +63,7 @@ class ComentarioController extends Controller
      * @param  \App\Models\Comentario  $comentario
      * @return \Illuminate\Http\Response
      */
+    // Editar comentario
     public function update(UpdateComentarioRequest $request, Comentario $comentario)
     {
         $data = $request->validated();
@@ -77,6 +81,7 @@ class ComentarioController extends Controller
      * @param  \App\Models\Comentario  $comentario
      * @return \Illuminate\Http\Response
      */
+    // Eliminar comentario
     public function destroy(Comentario $comentario)
     {
         if(Comentario::deleteComentario($comentario->id)){
@@ -88,6 +93,7 @@ class ComentarioController extends Controller
         }
     }
 
+    // Conseguir un unico comentario, dada su id
     public function getOne($id){
         return response()->json(Comentario::find($id)->get());
     }

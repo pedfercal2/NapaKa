@@ -22,6 +22,7 @@ class StoreUserRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
+    // Reglas de validación
     public function rules()
     {
         return [
@@ -31,18 +32,19 @@ class StoreUserRequest extends FormRequest
                 'required',
             ],
             'biografia' => 'nullable',
-            //'foto_perfil' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'is_administrator' => 'boolean'
+            'fotoPerfil' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'is_administrator' => 'string'
         ];
     }
 
-    
+    // Mensajes de error
     public function messages(){
         return [
             'nombre.required' => 'Este campo es obligatorio.',
             'nombre.unique' => 'Este nombre ya existe, por favor elija otro distinto.',
             'email.required' => "Este campo es obligatorio.",
             'email.unique' => 'Este email ya está en uso, por favor utilice otro distinto.',
+            'fotoPerfil' => 'La foto de perfil debe ser una imagen (formatos: jpeg, png, jpg) y no ser demasiado grande.',
             'password.required' => 'La contraseña es obligatoria.',
             'password' => 'La contraseña debe de tener mínimo 8 caracteres y entre ellos debe haber al menos 1 letra.',
         ];

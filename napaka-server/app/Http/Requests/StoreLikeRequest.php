@@ -16,6 +16,7 @@ class StoreLikeRequest extends FormRequest
         return true;
     }
 
+    // Reglas de validación
     public function rules()
     {
         return [
@@ -24,6 +25,7 @@ class StoreLikeRequest extends FormRequest
         ];
     }
 
+    // Mensajes de error
     public function messages(){
         return [
             'user_id.exists' => 'El usuario indicado no existe, por favor ponga un usuario existente.',

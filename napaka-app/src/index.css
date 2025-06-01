@@ -1,6 +1,14 @@
 /* Importando fuente de google fonts - Montserrat */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+  color: rgb(37, 30, 20);
+}
+
 .verdeFondo01{
   background-color: #9fc771;
 }
@@ -19,14 +27,6 @@
 
 .verdeLetra02{
   color: #466337
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Montserrat", sans-serif;
-  color: rgb(37, 30, 20);
 }
 
 body {
@@ -255,4 +255,24 @@ img[src=""] {
 .img-admin{
   max-width: 48px;
   max-height: 48px;
+}
+
+.logo-main{
+  max-width: 44rem;
+}
+
+.titulo{
+  color: #466337;
+}
+
+.contenerdor-main{
+  margin-top: 5.3rem !important;
+}
+
+.contenedor-inicio-logo{
+  text-align: center;
+}
+
+.header-nombre{
+  color: #c9eaa0 !important;
 }

@@ -21,6 +21,7 @@ class StorePostRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
+    // Reglas de validación
     public function rules()
     {
         return [
@@ -30,6 +31,7 @@ class StorePostRequest extends FormRequest
         ];
     }
 
+    // Mensajes de error
     public function messages(){
         return [
             'user_id.exists' => 'El usuario indicado no existe, por favor ponga un usuario existente.',

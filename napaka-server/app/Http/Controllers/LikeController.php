@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateLikeRequest;
 use App\Http\Resources\LikeResource;
 use Illuminate\Validation\ValidationException;
 
+// Controlador de likes, para descripción mas detallada de las funciones mirad el controlador de usuario
 class LikeController extends Controller
 {
     /**

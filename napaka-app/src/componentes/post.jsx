@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
+// Elemento personalizado para el muestreo de posts
 const Post = (post, userPost, liked) => {
     const {user, token, setUser, setToken} = useStateContext(); 
     

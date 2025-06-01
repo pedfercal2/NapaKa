@@ -23,15 +23,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Grupo de rutas que requieren validación del token de usuario
 Route::middleware('auth:sanctum')->group(function() {
     Route::get('logout', [AuthController::class, 'logout']);
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
 
+    // NOTA: LAS PETICIONES DE EDITAR ESTAN TODAS CON POST POR UN ERROR CONOCIDO DE LARAVEL AL GESTIONAR OBJETOS FORMDATA, LOS CUALES NECESITO USAR PARA GUARDAR IMAGENES
+
     // Rutas de usuario
     Route::post('/users/ver', [UserController::class, 'index']);
-    Route::put('/user/editar', [UserController::class, 'update']);
+    Route::post('/user/editar', [UserController::class, 'update']);
     Route::apiResource('/users', UserController::class);
 
     // Rutas de posts
@@ -69,5 +72,6 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('/index', [ApiController::class, 'index']);
 });
 
+// Rutas que no requieren de token de validación
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);

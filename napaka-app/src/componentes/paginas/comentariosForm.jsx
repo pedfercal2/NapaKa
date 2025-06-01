@@ -2,6 +2,8 @@ import { useRef, useState } from "react";
 import axiosClient from "../../axiosClient";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
+import { Navigate } from "react-router-dom";
+import { useStateContext } from "../../contextos/contextprovider";
 
 export default function ComentariosForm(){
     const {id} = useParams();
@@ -16,13 +18,14 @@ export default function ComentariosForm(){
     const [multimediaErr, setMultimediaErr] = useState([]);
     const [textoErr, setTextoErr] = useState([]);
     const [errorGeneral, setErrorGeneral] = useState([]);
+    const {user, token, logo, setUser, setToken} = useStateContext(); 
     
     const navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
 
 
-    // Control de si se edita poner los datos del usuario en el form (podria haberlo hecho mediante variable de contexto pero bueno)
+    // Control de si se edita poner los datos del comentario en el form (podria haberlo hecho mediante variable de contexto pero bueno)
     if(id){
         useEffect(()=>{
             setLoading(true);
@@ -38,6 +41,10 @@ export default function ComentariosForm(){
                 setLoading(false)
             })
         }, []);
+    }
+
+    if(!logo){
+        return <Navigate to='/inicio'></Navigate>
     }
     
     // Función encargada de gestionar el envío de formulario a servidor

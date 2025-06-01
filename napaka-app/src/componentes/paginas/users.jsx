@@ -3,12 +3,17 @@ import axiosClient from "../../axiosClient";
 import { Link } from "react-router-dom";
 import { useStateContext } from "../../contextos/contextprovider";
 import SelectorAdministrar from "../SelectortAdministrar";
+import { Navigate } from "react-router-dom";
 
 function users(){
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
-    const {user, token, setUser, setToken} = useStateContext(); 
     const {admin, setAdmin} = useState("SI");
+    const {user, token,logo, setUser, setToken} = useStateContext(); 
+
+    if(!logo){
+        return <Navigate to='/inicio'></Navigate>
+    }
 
     const sortList = (key, list, inverse) => {
       inverse

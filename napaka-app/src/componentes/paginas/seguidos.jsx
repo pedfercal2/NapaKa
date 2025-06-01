@@ -8,7 +8,7 @@ import { Navigate } from "react-router-dom";
 function seguidos(){
     const [seguidos, setSeguidos] = useState([]);
     const [loading, setLoading] = useState(true);
-    const {user, token, setUser, setToken} = useStateContext(); 
+    const {user, token, logo, setUser, setToken} = useStateContext(); 
 
     if(!token){
         return <Navigate to={'/login'}/>

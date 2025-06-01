@@ -8,42 +8,58 @@ import { Navigate } from "react-router-dom";
 function comentarios(){
     const [comentarios, setComentarios] = useState([]);
     const [loading, setLoading] = useState(true);
-    const {user, token, setUser, setToken} = useStateContext(); 
+    const {user, token, logo, setUser, setToken} = useStateContext(); 
 
+
+    // Me aseguro de que si no está logeado el usuario vuelve a la ventana de login
     if(!token){
         return <Navigate to={'/login'}/>
     }
+    
+    // Si el logo no está cargado le mando a la pestaña de indice
+    if(!logo){
+        return <Navigate to='/inicio'></Navigate>
+    }
 
+    // Al cargar la página llamo a la función que carga los comentarios que hay en la base de datos en una tabla
     useEffect(() => {
         getComentarios();
     }, [])
 
+    // Si se pulsa el eliminar comentario, se hace una llamada DELETE para eliminarlo
     const onDeleteClick = comentario => {
+      // Uso axios personalizado para las peticiones al servidor
         axiosClient.delete(`/comentario/${comentario.id}`)
           .then(() => {
             getComentarios()
           })
       }
-
+    
+    // Función encargada de gestionar la carga de comentarios
     const getComentarios = () => {
+        // El usuario que está conectado se pasa al servidor, para realizar validaciones de permisos
         const data = {
           user: user
         };
+        // Cambio el estado de esta variable para que salga un mensaje mientras la app está cargando
         setLoading(true);
         axiosClient.post('/comentarios/ver', data)
         .then(({data}) => {
+            // Una vez he recivido los datos del servidor, pongo la variable que determina si se está cargando aún a false 
             setLoading(false)
-            console.log(data);
             if(data.data.multimedia == null){
                 data.data.multimedia = "no";
             }
+            // Almaceno los comentarios
             setComentarios(data.data)
         })
         .catch(() => {
             setLoading(false)
+            alert("ERROR");
         })
     }
 
+    // Controlo si el usuario es administrador (se debería hacer desde servidor) y cargo la vista
     if(user.is_administrator===1){
         return(
         <div className="container selector-admin">

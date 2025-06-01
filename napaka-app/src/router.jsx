@@ -17,6 +17,7 @@ import SeguidosForm from "./componentes/paginas/seguidosForm";
 import Inicio from "./componentes/paginas/inicio";
 import ComentariosForm from "./componentes/paginas/comentariosForm";
 
+// Elemento de rutas.
 const router = createBrowserRouter ([
     {
         path: '/',

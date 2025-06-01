@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
+// Elemento personalizado para el selector de tabla a administrar
 const SelectorAdministrar = () =>{
     return (
         <div className="d-flex selector-admin">

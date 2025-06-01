@@ -6,11 +6,16 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreComentarioRequest extends FormRequest
 {
+    public function authorize()
+    {
+        return true;
+    }
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
+    // Reglas de validación
     public function rules()
     {
         return [
@@ -21,6 +26,7 @@ class StoreComentarioRequest extends FormRequest
         ];
     }
 
+    // Mensajes de error
     public function messages(){
         return [
             'user_id.exists' => 'El usuario indicado no existe, por favor ponga un usuario existente.',

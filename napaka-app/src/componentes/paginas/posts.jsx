@@ -8,16 +8,21 @@ import { Navigate } from "react-router-dom";
 function posts(){
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
-    const {user, token, setUser, setToken} = useStateContext(); 
+    const {user, token,logo, setUser, setToken} = useStateContext(); 
 
     if(!token){
         return <Navigate to={'/login'}/>
     }
-
+    if(!logo){
+        return <Navigate to='/inicio'></Navigate>
+    }
+    
+    // Al cargar la vista pido los posts al servidor
     useEffect(() => {
         getPosts();
     }, [])
 
+    // Función encargada de gestionar el borrado de posts
     const onDeleteClick = post => {
         if (!window.confirm("¿Estás seguro de querer eliminar este post?")) {
           return
@@ -28,6 +33,7 @@ function posts(){
           })
       }
 
+    // Función encaragda de gestionar el pedir los posts al servidor y prepararlos para el muestreo
     const getPosts = () => {
         const data = {
           user: user
@@ -47,6 +53,7 @@ function posts(){
         })
     }
 
+    // Si el usuario es administrador muestro datos
     if(user.is_administrator===1){
         return(
         <div className="container selector-admin">

@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateSeguidorRequest;
 use App\Http\Resources\SeguidorResource;
 use Illuminate\Validation\ValidationException;
 
+// Controlador de Seguidores, para descripción mas detallada de las funciones mirad el controlador de usuario
 class SeguidorController extends Controller
 {
     /**

@@ -8,10 +8,13 @@ import { Navigate } from "react-router-dom";
 function seguidores(){
     const [seguidores, setSeguidores] = useState([]);
     const [loading, setLoading] = useState(true);
-    const {user, token, setUser, setToken} = useStateContext(); 
+    const {user, token,logo, setUser, setToken} = useStateContext(); 
 
     if(!token){
         return <Navigate to={'/login'}/>
+    }
+    if(!logo){
+        return <Navigate to='/inicio'></Navigate>
     }
 
     useEffect(() => {

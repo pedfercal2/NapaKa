@@ -10,25 +10,31 @@ function Login() {
   const {user, setUser, setToken} = useStateContext();
   const [errores, setErrores] = useState([]);
 
+  // Funcion llamada al enviar el formulario, envia los datos al servidor y espera respuestas de validación de los mismos
   const Submit = (ev) => {
+    // para evitar que se recargue la página
     ev.preventDefault();
 
+    // Prototipo que almacena la información que será enviada al servidor
     const payload = {
       email: emailRef.current.value,
       password: passwordRef.current.value,
     }
 
+    // Envio al servidor los datos y gestiono posibles errores
     axiosClient.post("/login", payload).then(({data}) => {
       setUser(data.user);
       setToken(data.token);
       setErrores(data.message);
       console.log(data);
+      // Si consigo logearme voy a la ventana de inicio
       if(user && token){
         return (
           <Navigate to='/inicio'/>
         )
       }
     }).catch(err => {
+      // Gestion de errores
       const response = err.response;
       if(response && response.status === 422){
         setErrores(response.data.errors);

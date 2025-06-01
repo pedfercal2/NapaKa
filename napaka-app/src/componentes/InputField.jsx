@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+// Elemento personalizado para los inputs de el formulario de inicio de sesión y de registro
 const InputField= ({ref, type, placeholder, icon}) =>{
     const [isPasswordShown, setIsPasswordShown] = useState(false);
 

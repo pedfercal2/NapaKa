@@ -22,6 +22,7 @@ class RegisterRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
+    // Reglas de validación
     public function rules()
     {
         return [
@@ -35,6 +36,7 @@ class RegisterRequest extends FormRequest
         ];
     }
 
+    // mensajes de cada error de validación
     public function messages(){
         return [
             'nombre.required' => 'Este campo es obligatorio.',

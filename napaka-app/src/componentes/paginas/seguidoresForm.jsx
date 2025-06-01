@@ -2,6 +2,8 @@ import { useRef, useState } from "react";
 import axiosClient from "../../axiosClient";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
+import { Navigate } from "react-router-dom";
+import { useStateContext } from "../../contextos/contextprovider";
 
 export default function SeguidoresForm(){
     const {id} = useParams();
@@ -16,6 +18,12 @@ export default function SeguidoresForm(){
     const navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
+
+    const {user, token,logo, setUser, setToken} = useStateContext(); 
+
+    if(!logo){
+        return <Navigate to='/inicio'></Navigate>
+    }
 
     // Si se edita se ponen los datos del elemento en el form
     if(id){

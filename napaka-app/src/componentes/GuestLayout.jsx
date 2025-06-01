@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import { useStateContext } from "../contextos/contextprovider";
 import { Navigate } from "react-router-dom";
 
+// Layout padre de los formularios de inicio de sesión y registro
 function GuestLayout(){
     const {token} = useStateContext();
     

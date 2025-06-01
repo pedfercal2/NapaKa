@@ -1,33 +1,49 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import axiosClient from "../../axiosClient";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
+import { Navigate } from "react-router-dom";
+import { useStateContext } from "../../contextos/contextprovider";
 
 export default function UserForm(){
     const {id} = useParams();
 
-    const [user, setUsers] = useState({
+    const nombreRef = useRef();
+    const emailRef = useRef();
+    const passwordRef = useRef();
+    const biografiaRef = useRef();
+    const fotoPerfillRef = useRef();
+    const isAdminRef = useRef(false);
+
+    /*const [user, setUsers] = useState({
         id: null,
         nombre: "",
         email: "",
         password: "",
         biografia: "",
         /*fotoPerfil: "",*/
-        is_administrator: false
-    });
+        /*is_administrator: false
+    });*/
 
     const [readOnly, setReadOnly] = useState(false);
 
     const [passwordErr, setPasswordErr] = useState([]);
     const [nombreErr, setNombreErr] = useState([]);
     const [emailErr, setEmailErr] = useState([]);
-    const [fotoErr, setFotoErr] = useState([]);
+    const [biografiaErr, setBiografiaErr] = useState([]);
+    const [fotoPerfilErr, setFotoPerfilErr] = useState([]);
+    const [isAdminErr, setIsAdminErr] = useState([]);
     
     
     const navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
-    const [errors, setErrors] = useState(null);
+
+    const {logo, setToken} = useStateContext(); 
+
+    if(!logo){
+        return <Navigate to='/inicio'></Navigate>
+    }
 
     if(id){
         useEffect(()=>{
@@ -37,14 +53,27 @@ export default function UserForm(){
             .then(({data}) => {
                 setLoading(false)
                 console.log(data["nombre"]);
-                setUsers({
+                
+                nombreRef.current.value = data["nombre"];
+                emailRef.current.value = data["email"];
+                biografiaRef.current.value = data["biografia"];
+                console.log(data["is_administrator"]);
+                
+                if(data["is_administrator"] == 1){
+                  console.log("en true");
+                  isAdminRef.current.checked = true;
+                }else{
+                  console.log("en false");
+                  isAdminRef.current.checked = false;
+                }
+                /*setUsers({
                   ...user,
                   id: data["id"],
                   nombre: data["nombre"],
                   email: data["email"],
                   biografia: data["biografia"],
                   is_administrator: data["is_administrator"]
-                });
+                });*/
             })
             .catch(() => {
                 setLoading(false)
@@ -52,48 +81,88 @@ export default function UserForm(){
         }, []);
     }
 
+    // Gestión de el envío de datos al servidor
     const onSubmit = ev => {
-        ev.preventDefault()
-        if (user.id) {
-          console.log("TIENE ID");
-          
-          var formData2 = new FormData();
+        ev.preventDefault();
+        // uso formdata para poder mandar correctamente la imágen al servidor
+        const formData = new FormData();
+        formData.append("nombre", nombreRef.current.value);
+        formData.append("email", emailRef.current.value);
+        formData.append("password", passwordRef.current.value);
+        formData.append("biografia", biografiaRef.current.value);
+        formData.append("is_administrator", isAdminRef.current.checked);
+        
+        console.log(formData);
 
-          formData2.append("id", user.id);
-          formData2.append("nombre", user.nombre);
-          formData2.append("email", user.email);
-          formData2.append("password", user.password);
-          formData2.append("biografia", user.biografia);
-          //formData2.append("fotoPerfil", ev.target[4].files[0]);
+        if(ev.target[4].files[0] != undefined){
+          formData.append("fotoPerfil", ev.target[4].files[0]);
+        }
+
+        if (id) {
+          console.log("TIENE ID");
+          setReadOnly(true);
+
+          formData.append("id", id);
 
           //setUsers({...user, fotoPerfil: ev.target[4].files[0]}) 
           /*axiosClient.put(`/users/${user.id}`, user)*/
-          console.log(formData2);
-          axiosClient.put('/user/editar', user).then(({data}) => {
+
+          axiosClient.post('/user/editar', formData).then(({data}) => {
                 console.log(data);
                 alert("Usuario editado correctamente.");
-                navigate('/users')
+                navigate('/users');
             })
             .catch(err => {
               const response = err.response;
-              if (response && response.status === 422) {
-                // Error en la foto de perfil de usuario
-                setFotoErr([]);
-                if(response.data.errors.fotoPerfil!= null){
-                  setFotoErr(response.data.errors.fotoPerfil);
+              if(response && response.status === 422){
+                setNombreErr([]);
+                if(response.data.errors.nombre != null){
+                    setNombre(response.data.errors.nombre);
+                }
+
+                setEmailErr([]);
+                if(response.data.errors.email!= null){
+                    setEmailErr(response.data.errors.email);
+                }
+                
+                setBiografiaErr([]);
+                if(response.data.errors.biografia!= null){
+                  setBiografiaErr(response.data.errors.biografia);  
+                }
+
+                setFotoPerfilErr([]);
+                if(response.data.errors.foto_perfil!= null){
+                    setMultimediaErr(response.data.errors.foto_perfil);
                 }
               }
             })
         } else {
-          axiosClient.post('/users', user)
+          axiosClient.post('/users', formData)
             .then(() => {
                 alert("Usuario creado correctamente.");
                 navigate('/users');
             })
             .catch(err => {
-              const response = err.response;
-              if (response && response.status === 422) {
-                setErrors(response.data.errors)
+              if(response && response.status === 422){
+                setNombreErr([]);
+                if(response.data.errors.nombre != null){
+                    setNombre(response.data.errors.nombre);
+                }
+
+                setEmailErr([]);
+                if(response.data.errors.email!= null){
+                    setEmailErr(response.data.errors.email);
+                }
+                
+                setBiografiaErr([]);
+                if(response.data.errors.biografia!= null){
+                  setBiografiaErr(response.data.errors.biografia);  
+                }
+
+                setFotoPerfilErr([]);
+                if(response.data.errors.foto_perfil!= null){
+                    setMultimediaErr(response.data.errors.foto_perfil);
+                }
               }
             })
         }
@@ -108,31 +177,64 @@ export default function UserForm(){
             Loading...
           </div>
         )}
-        {user.id && <h1 className="form-title">Editar Usuario {user.nombre}:</h1>}
-        {!user.id && <h1 className="form-title">Crear Usuario</h1>}
+        {id && <h1 className="form-admin-title">Editar El Usuario con ID: {id}</h1>}
+        {!id && <h1 className="form-admin-title">Crear Usuario</h1>}
         {!loading && (
-          <form className="login-form" onSubmit={onSubmit} encType="multipart/form-data">
-            <div className="input-wrapper">
-              <input className="input-field" defaultValue={user.nombre} readOnly={readOnly}  onChange={ev => setUsers({...user, nombre: ev.target.value})} placeholder="Nombre"/>
+          <form className="form-admin" onSubmit={onSubmit} encType="multipart/form-data">
+            <div className="input-wrapper d-block">
+                {nombreErr.map(function(data) {
+                    return(
+                        <p className="formErr">{data}</p>
+                    )}
+                )}
+              <input className="input-form-admin" ref={nombreRef} readOnly={readOnly} placeholder="Nombre"/>
+            </div>
+            <div className="input-wrapper d-block">
+                {emailErr.map(function(data) {
+                    return(
+                        <p className="formErr">{data}</p>
+                    )}
+                )}
+              <input className="input-form-admin" ref={emailRef} readOnly={readOnly} placeholder="Email"/>
+            </div>
+            <div className="input-wrapper d-block">
+                {passwordErr.map(function(data) {
+                    return(
+                        <p className="formErr">{data}</p>
+                    )}
+                )}
+              <input className="input-form-admin" ref={passwordRef} placeholder="password"/>
             </div>
             <div className="input-wrapper">
-              <input className="input-field" defaultValue={user.email} readOnly={readOnly}  onChange={ev => setUsers({...user, email: ev.target.value})} placeholder="Email"/>
+             {biografiaErr.map(function(data) {
+                    return(
+                        <p className="formErr">{data}</p>
+                    )}
+                )}
+              <textarea className="input-text-area" ref={biografiaRef} placeholder="Biografia"/>
             </div>
             <div className="input-wrapper">
-              <input className="input-field" type="password" onChange={ev => setUsers({...user, password: ev.target.value})} placeholder="Password"/>
+                {fotoPerfilErr.map(function(data) {
+                    return(
+                        <p className="formErr">{data}</p>
+                    )}
+                )}
+                <div className="input-wrapper">
+                    <label className="label-form-admin">Foto de perfil:</label>
+                </div>
+                
+                <input className="label-form-admin" type="file" ref={fotoPerfillRef}></input>
             </div>
-            <div className="text-wrapper">
-              <textarea className="input-text-area" rows="8" cols="30" value={user.biografia} onChange={ev => setUsers({...user, biografia: ev.target.value})} placeholder="Biografia"/>
-            </div>
-            {/*fotoErr.map(function(data) {
-            return(
-              <p className="formErr">{data}</p>
-            )
-          })*/}
-            {/*<label>Foto de perfil:</label>*/}
-            <div className="check-wrapper">
-              <label className="admin-check-label">Administrador: </label>
-              <input className="admin-check" type="checkbox" checked={user.is_administrator} onChange={ev => setUsers({...user, is_administrator: ev.target.checked})}/>
+            <div className="input-wrapper">
+                {isAdminErr.map(function(data) {
+                    return(
+                        <p className="formErr">{data}</p>
+                    )}
+                )}
+                <div className="input-wrapper">
+                    <label className="label-form-admin">Admin:</label>
+                </div>
+                <input className="label-form-admin" type="checkbox" ref={isAdminRef}></input>
             </div>
             <button className="login-button">Guardar</button>
           </form>

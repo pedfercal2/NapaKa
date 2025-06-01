@@ -5,16 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+// Modelo de la tabla comentarios de la base de datos, con sus funciones de geestión hechas con ELOQUENT
 class Comentario extends Model
 {
     use HasFactory;
 
+    // Nombre de tabla
     protected $table = "comentarios";
 
+    // Campos en los que se permite inserción masiva
     protected $fillable = ['user_id','post_id','texto','multimedia'];
 
     public $timestamps = false;
 
+    
     static function getAllComentarios(){
         $comentarios = Comentario::all();
         return $comentarios;
@@ -30,6 +34,7 @@ class Comentario extends Model
             $comentario->post_id = $data["post_id"];
             $comentario->texto = $data["texto"];
 
+            // Control de almacenaje de ficheros
             $uploadPath = public_path('imagenes');
             if(!file_exists($uploadPath)){
                 mkdir($uploadPath, 0777, true);
@@ -78,6 +83,7 @@ class Comentario extends Model
                 $comentario->user_id = $data["user_id"];
                 $comentario->post_id = $data["post_id"];
 
+                // Control de almacenaje de ficheros
                 $uploadPath = public_path('imagenes');
                 if(!file_exists($uploadPath)){
                     mkdir($uploadPath, 0777, true);

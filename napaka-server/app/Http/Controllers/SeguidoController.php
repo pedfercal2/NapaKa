@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateSeguidoRequest;
 use App\Http\Resources\SeguidoResource;
 use Illuminate\Validation\ValidationException;
 
+// Controlador de seguidos, para descripción mas detallada de las funciones mirad el controlador de usuario
 class SeguidoController extends Controller
 {
     /**

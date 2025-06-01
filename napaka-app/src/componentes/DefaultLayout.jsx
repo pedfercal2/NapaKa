@@ -5,6 +5,8 @@ import { useEffect } from "react";
 import axiosClient from "../axiosClient";
 import { Link } from "react-router-dom";
 
+// Layout padre de todas las vistas en las que se necesita estar autenticado para visualizar.
+// Carga el header de la app
 function DefaultLayout(){
     const {user, token, logo, setUser, setToken, setLogo} = useStateContext();       
     
@@ -45,7 +47,7 @@ function DefaultLayout(){
                                 <div className="header-right-container">
                                     <div className="d-flex m-auto user-header-container">
                                         <img className="logo m-auto mr-0" src={user.foto_perfil}></img>
-                                        <span className="header-text m-auto ml-0">{user.nombre}</span>
+                                        <span className="header-text m-auto ml-0 header-nombre">{user.nombre}</span>
                                     </div>
                                     <div className="logout-container">
                                         <a href="#" onClick={onLogout} className="header-text headerLink m-auto">Logout</a>

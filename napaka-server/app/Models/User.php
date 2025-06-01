@@ -56,6 +56,8 @@ class User extends Authenticatable
             mkdir($uploadPath, 0777, true);
         }
 
+        // Control de almacenaje de ficheros
+
         if(isset($data["fotoPerfil"])){
             $imageName = time() . '.' . $data["fotoPerfil"]->getClientOriginalExtension();
             $data["fotoPerfil"]->move($uploadPath, $imageName);
@@ -65,7 +67,7 @@ class User extends Authenticatable
 
         $usuario->foto_perfil = asset('imagenes/'. basename($imageName));
 
-        if(isset($data["is_administrator"])){
+        if(isset($data["is_administrator"]) && $data["is_administrator"] == "true"){
             $usuario->is_administrator = $data["is_administrator"];
         }else{
             $usuario->is_administrator = false;
@@ -137,10 +139,24 @@ class User extends Authenticatable
             $user->password = bcrypt($data["password"]);
         }
         $user->biografia = $data["biografia"];
-        /*if($data["fotoPerfil"] != "" || $data["fotoPerfil"] != null){
-            $user->foto_perfil = $data["fotoPerfil"];
-        }*/
-        $user->is_administrator = $data["is_administrator"];
+       
+        // Control de almacenaje de ficheros
+        $uploadPath = public_path('imagenes');
+        if(!file_exists($uploadPath)){
+            mkdir($uploadPath, 0777, true);
+        }
+
+        if(isset($data["fotoPerfil"])){
+            $imageName = time() . '.' . $data["fotoPerfil"]->getClientOriginalExtension();
+            $data["fotoPerfil"]->move($uploadPath, $imageName);
+            $user->foto_perfil = asset('imagenes/'. basename($imageName));
+        }
+
+        if($data["is_administrator"] == "true"){
+            $user->is_administrator = true;
+        }else{
+            $user->is_administrator = false;
+        }
         $user->save();
         return $user;
     }

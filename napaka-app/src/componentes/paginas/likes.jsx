@@ -8,16 +8,24 @@ import { Navigate } from "react-router-dom";
 function likes(){
     const [likes, setLikes] = useState([]);
     const [loading, setLoading] = useState(true);
-    const {user, token, setUser, setToken} = useStateContext(); 
-
+    const {user, token,logo, setUser, setToken} = useStateContext(); 
+    
+    // Me aseguro que el usuario está logeado, si no lo mando al login
     if(!token){
         return <Navigate to={'/login'}/>
     }
+    // Me aseguro que los campos necesarios para la app estén cargados
+    if(!logo){
+        return <Navigate to='/inicio'></Navigate>
+    }
 
+    // Al cargar la página cargaré los likes
     useEffect(() => {
         getLikes();
     }, [])
 
+
+    // Gestión de eliminado
     const onDeleteClick = like => {
         if (!window.confirm("¿Estás seguro de querer eliminar este like?")) {
           return
@@ -28,6 +36,7 @@ function likes(){
           })
       }
 
+    // Gestión de conseguir los likes del servidor
     const getLikes = () => {
         const data = {
           user: user
@@ -44,6 +53,7 @@ function likes(){
         })
     }
 
+    // Si el usuario es admin muestro datos
     if(user.is_administrator===1){
         return(
         <div className="container selector-admin">

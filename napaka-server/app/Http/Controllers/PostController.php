@@ -6,7 +6,7 @@ use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Http\Resources\PostResource;
-
+// Controlador de posts, para descripción mas detallada de las funciones mirad el controlador de usuario
 class PostController extends Controller
 {
     /**
